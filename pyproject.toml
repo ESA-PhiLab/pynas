@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pynas"
+version = "0.1.0"
+description = "pynas, a powerful open-source Python package that provides a comprehensive set of tools for Neural Architecture Search"
+readme = {file = "README.md", content-type = "text/markdown"}
+requires-python = ">=3.8,<4"
+license = {text = "GPL-3.0-only"}
+authors = [
+  {name = "Roberto Del Prete"},
+  {name = "Andrea Mazzeo"},
+  {name = "Parampuneet Thind"},
+]
+maintainers = [{name = "Roberto Del Prete", email = "roberto.delprete@esa.int"}]
+dependencies = [
+  "numpy",
+  "opencv-python",
+  "pandas",
+  "tqdm",
+  "matplotlib",
+  "seaborn",
+  "torch",
+  "pytorch-lightning",
+  "rasterio",
+  "tifffile"
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Science/Research",
+  "Topic :: Scientific/Engineering :: GIS",
+  "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+  "Programming Language :: Python :: 3.8",
+  "Environment :: GPU :: NVIDIA CUDA :: 11.0"
+]
+
+[project.urls]
+Source = "https://github.com/ESA-PhiLab/pynas"
+
+[tool.setuptools.packages.find]
+include = ["pynas*"]

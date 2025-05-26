@@ -18,7 +18,7 @@
 <img src="./docs/images/banner.png" alt="ESA-PhiLab Logo" width="2500" style='margin-bottom: 0em;'/>
 </p>
 
-### powered by:
+### > powered by:
 
 <p align="center">
     <img src="./docs/images/lpl.jpg" alt="LPL Logo" width="350" style='margin-bottom: 1em;'/>
