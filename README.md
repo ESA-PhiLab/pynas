@@ -1,55 +1,82 @@
-![GitHub stars](https://img.shields.io/github/stars/ESA-PhiLab/Repo-Template.svg)
-![GitHub forks](https://img.shields.io/github/forks/ESA-PhiLab/Repo-Template.svg)
-![GitHub issues](https://img.shields.io/github/issues/ESA-PhiLab/Repo-Template.svg)
-![GitHub pull requests](https://img.shields.io/github/issues-pr/ESA-PhiLab/Repo-Template.svg)
-![GitHub last commit](https://img.shields.io/github/last-commit/ESA-PhiLab/Repo-Template.svg)
-![GitHub code size](https://img.shields.io/github/languages/code-size/ESA-PhiLab/Repo-Template.svg)
-![GitHub top language](https://img.shields.io/github/languages/top/ESA-PhiLab/Repo-Template.svg)
-![GitHub repo size](https://img.shields.io/github/repo-size/ESA-PhiLab/Repo-Template.svg)
-![GitHub contributors](https://img.shields.io/github/contributors/ESA-PhiLab/Repo-Template.svg)
+![GitHub stars](https://img.shields.io/github/stars/ESA-PhiLab/pynas.svg)
+![GitHub forks](https://img.shields.io/github/forks/ESA-PhiLab/pynas.svg)
+![GitHub issues](https://img.shields.io/github/issues/ESA-PhiLab/pynas.svg)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/ESA-PhiLab/pynas.svg)
+![GitHub last commit](https://img.shields.io/github/last-commit/ESA-PhiLab/pynas.svg)
+![GitHub code size](https://img.shields.io/github/languages/code-size/ESA-PhiLab/pynas.svg)
+![GitHub top language](https://img.shields.io/github/languages/top/ESA-PhiLab/pynas.svg)
+![GitHub repo size](https://img.shields.io/github/repo-size/ESA-PhiLab/pynas.svg)
+![GitHub contributors](https://img.shields.io/github/contributors/ESA-PhiLab/pynas.svg)
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
-[![Documentation Status](https://img.shields.io/badge/docs-latest-green.svg)](https://github.com/ESA-PhiLab/Repo-Template/wiki)
+[![Documentation Status](https://img.shields.io/badge/docs-latest-green.svg)](https://github.com/ESA-PhiLab/pynas/wiki)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://makeapullrequest.com)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15332053.svg)](https://doi.org/10.5281/zenodo.15332053)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-(For these shield to work, set proper name..)
-
 
 <p align="right">
-<img src="./docs/images/banner.png" alt="ESA-PhiLab Logo" width="950" style='margin-bottom: 0em;'/>
+<img src="./docs/images/banner.png" alt="ESA-PhiLab Logo" width="2500" style='margin-bottom: 0em;'/>
+</p>
+
+### and:
+
+<p align="center">
+    <img src="./docs/images/lpl.jpg" alt="LPL Logo" width="350" style='margin-bottom: 1em;'/>
 </p>
 
 
 
 
-## Repository Template
+# 🧬 pynas
+
+PyNAS is a modular neural architecture search (NAS) framework developed by ESA Φ-lab and Little Place Lab, specifically designed for deployment optimization on edge devices. It leverages advanced metaheuristic strategies, primarily Genetic Algorithms (GA) 🧬, to efficiently identify optimal deep learning architectures for constrained environments.
+
+### Key Features
+- 🧬 Metaheuristic Optimisation: Utilizes Genetic Algorithms (GA) for robust architecture optimization.
+- 🔍 Model Architecture Selection: Automates the selection of optimal architectures for specific onboard applications.
+- 📱 Edge Device Compatibility: Tailored for efficient deployment on various edge devices.
+- 📊 Performance Metrics: Evaluates architectures based on predefined or custom metrics relevant to edge computing.
 
 
-Use this template to kickstart your ESA-PhiLab project with all the necessary structure and documentation. You'll get:
-- A professional repository structure following best practices
-- Automatic GitHub Pages website generation (example: https://esa-philab.github.io/Repo-Template/)
-- Pre-configured badges and documentation templates
-- Standardized license and citation formats
 
-Getting started is easy - just follow the detailed instructions in `docs/readme.md` to customize the template for your specific project.
+## 🚧 Work In Progress
+**Note:** This repository currently contains a limited preview of the PyNAS framework. The complete codebase will be publicly disclosed upon the acceptance of our research paper. We appreciate your interest and patience.
 
-## 📌 Project Title
-> Replace this with your project name.
+
+
+
+| Feature | Description |
+|---------|-------------|
+| <img src="./docs/images/pynas.png" width="120"> |  |
+| Python Support | [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/) |
+| PyPi | Coming soon 🚧 |
+| License | [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) |
+| Documentation | Coming soon 🚧 |
+| Contributions | [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://makeapullrequest.com) |
+
+
 
 ## 👥 Authors
-List all project contributors. Preferably include links to their professional profiles.
 
-- Name One ([profile](https://example.com))  
-- Name Two ([profile](https://example.com))
+- Roberto Del Prete ([profile](https://example.com))  
+- Lorenzo Papa ([profile](https://example.com))
+- Parampuneet Thind ([profile](https://example.com))
+- Matthew Whitley ([profile](https://example.com))
 
-## 📖 Project Reference
+## 📖 Reference
 Specify the type and context of the project.
 
-- Example: ESA Φ-lab Research Fellowship — [Link to ESA page](https://philab.esa.int)
+- ESA Φ-lab Research Fellowship — [Link to ESA page](https://philab.esa.int)
+- Little Place Lab — [Link to LPL page](https://www.littleplace.com)
+
 
 ## 📝 Abstract
-Provide a concise summary of the project goals, methodology, and outcomes.
+Advancements in spaceborne edge computing has facilitated the incorporation of AI-powered chips into CubeSats, allowing for intelligent data handling and enhanced analytical capabilities with greater operational autonomy.
+This class of satellites face stringent energy and memory constraints, thus necessitating lightweight models which are often obtained by compression techniques.
+This paper addresses model compression by Neural Architecture Search (NAS) to enable computational efficiency and balance between accuracy, size, and latency.
+More in detail, we design an evolutionary-based NAS framework for onboard processing and test its capabilities on the burned area segmentation test case. The proposed solution jointly optimizes network architecture and deployment for hardware-specific resource-constrained platforms. Additionally, hardware-awareness is introduced in the optimization loop for tailoring the network topology to the specific target edge computing chip.
+The resulting models, which has been designed on CubeSat-class hardware, i.e. an NVIDIA Jetson AGX Orion and the Intel Movidious Myriad X, exhibits a memory footprint below 1 MB, outperforming handcrafted baselines in terms of latency (3× faster) and maintain competitive mean Intersection over Union (mIoU); additionally enabling real-time, high-resolution inference in orbit.
+
 
 ## 🛠️ How to Use
 Detailed instructions to set up and run the project.
@@ -133,10 +160,3 @@ The script (`data/download_hf_datasets.py`) provides a robust way to fetch datas
 - Uses HF's optimized transfer protocol
 
 To customize which datasets to download, edit the `repo_ids` list in the script.
-
-## 🌐 GitHub Pages
-This repository supports GitHub Pages. Request support to enable and configure the page if needed.
-
----
-
-*For internal use only: This repository conforms to the ESA-PhiLab development and archiving standards.*
