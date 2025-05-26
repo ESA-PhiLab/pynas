@@ -59,9 +59,12 @@ PyNAS is a modular neural architecture search (NAS) framework developed by ESA �
 ## 👥 Authors
 
 - Roberto Del Prete ([profile](https://example.com))  
-- Lorenzo Papa ([profile](https://example.com))
 - Parampuneet Thind ([profile](https://example.com))
+- Andrea Mazzeo ([profile](https://example.com))
+- Lorenzo Papa ([profile](https://example.com))
 - Matthew Whitley ([profile](https://example.com))
+- Gabriele Meoni
+- Nicolas Longepe
 
 ## 📖 Reference
 Specify the type and context of the project.
