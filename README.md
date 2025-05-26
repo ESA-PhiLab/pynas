@@ -97,8 +97,8 @@ pdm install
 
 ## 📚 Citations
 Please cite the following works if you use this code:
-- [Reference Paper 1]
-- [Reference Paper 2]
+
+
 
 ## 📂 Repository Structure
 ```
@@ -133,11 +133,11 @@ The `docs/` directory contains the project's documentation website with comprehe
 This project is licensed under the **CC BY-NC-ND 4.0** license. See the [LICENSE](./LICENSE) file or read more at [creativecommons.org](https://creativecommons.org/licenses/by-nc-nd/4.0/).
 
 ## 📊 Dataset Hosting
-Datasets are either included in `data/` or hosted externally:
-- [Zenodo](https://zenodo.org)
-- [Hugging Face Datasets](https://huggingface.co/datasets)
 
-Ensure external links are functional and persistent.
+All relevant data supporting the findings of this study are either included in the manuscript and supplementary materials or are publicly available at: 
+
+- [Hugging Face Datasets](https://huggingface.co/datasets/ESA-PhiLab-Edge/LPL-Burned-Area-Seg)
+
 
 ### 📥 Data Download Utilities
 
