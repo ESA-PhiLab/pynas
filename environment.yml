@@ -1,0 +1,12 @@
+name: your_project_environment # Replace with a suitable environment name
+channels:
+  - defaults
+  - conda-forge # Optional: if you use packages from conda-forge
+dependencies:
+  - python=3.9 # Or your desired Python version
+  # Add other conda/pip dependencies here
+  # Example conda package:
+  # - numpy
+  # Example pip package (use a nested list for pip dependencies):
+  # - pip:
+  #   - pandas

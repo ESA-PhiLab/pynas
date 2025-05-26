@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Generic Research Paper">
+    <meta name="keywords" content="Research, Paper, Academic, Science">
+    <title>Generic Research Paper</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Bulma CSS for structure - can be replaced or customized further if needed -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <script>
+        async function loadContent() {
+            try {
+                const titleResponse = await fetch('Title.txt');
+                const title = await titleResponse.text();
+                document.getElementById('publication-title').innerText = title;
+                document.title = title;
+
+                const authorsResponse = await fetch('Authors.txt');
+                const authorsText = await authorsResponse.text();
+                const [authorsLine, affiliationsLine] = authorsText.split('\n');
+                const authorsArray = authorsLine.split(',').map(author => author.trim());
+                
+                const authorsHtml = authorsArray.map(author => `<span class="author-block">${author}</span>`).join('');
+                document.getElementById('publication-authors').innerHTML = authorsHtml;
+                document.getElementById('author-affiliations').innerText = affiliationsLine;
+
+                const abstractResponse = await fetch('Abstract.txt');
+                const abstract = await abstractResponse.text();
+                document.getElementById('abstract-content').innerText = abstract;
+
+                const methodResponse = await fetch('method.txt');
+                const method = await methodResponse.text();
+                document.getElementById('method-content').innerText = method;
+
+                const resultsResponse = await fetch('results.txt');
+                const results = await resultsResponse.text();
+                document.getElementById('results-content').innerText = results;
+
+                const linksResponse = await fetch('Links.json');
+                const links = await linksResponse.json();
+                const linksHtml = links.map(link => `
+                    <span class="link-block">
+                        <a href="${link.url}" class="external-link button is-outlined is-rounded is-small">
+                            <span class="icon"><i class="${link.icon}"></i></span>
+                            <span>${link.name}</span>
+                        </a>
+                    </span>
+                `).join('');
+                document.getElementById('publication-links').innerHTML = linksHtml;
+
+            } catch (error) {
+                console.error("Error loading content:", error);
+            }
+        }
+        window.onload = loadContent;
+    </script>
+</head>
+<body>
+
+    <nav class="navbar is-dark-blue" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="#">
+                <img src="images/logo.png" alt="Logo">
+            </a>
+    
+        </div>
+    
+        <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+                <!-- Navbar items can be added here -->
+            </div>
+    
+            <div class="navbar-end">
+                <!-- Navbar items can be added here -->
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero is-light"> <!-- Changed from dark to light for better contrast with current style.css -->
+      <div class="hero-body">
+        <div class="container is-max-desktop">
+          <div class="columns is-centered">
+            <div class="column has-text-centered">
+              <h1 class="title is-1 publication-title" id="publication-title">Loading Title...</h1>
+              <div class="is-size-5 publication-authors" id="publication-authors">
+                <!-- Authors will be loaded here -->
+              </div>
+              <div class="is-size-5" id="author-affiliations">
+                <!-- Affiliations will be loaded here -->
+              </div>
+              <div class="publication-links" id="publication-links" style="margin-top: 1em;">
+                <!-- Links will be loaded here -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section pt-5"> <!-- Added pt-5 for spacing -->
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column is-four-fifths">
+            <h2 class="title is-3 has-text-centered">Overview</h2>
+            <div class="content has-text-justified">
+              <p id="abstract-content">Loading Abstract...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Placeholder for a Teaser/Video section if needed -->
+    <!-- <section class="hero is-small">
+      <div class="container is-max-desktop">
+        <div class="hero-body has-text-centered">
+          <h2 class="title is-4">Teaser / Video</h2>
+          <iframe width="100%" height="400" src="https://www.youtube.com/embed/your-video-id" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      </div>
+    </section> -->
+
+    <!-- Placeholder for How it Works / Methods section -->
+    <section class="section">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered">
+                <div class="column is-four-fifths">
+                    <h2 class="title is-3 has-text-centered"><span class="icon"><i class="fas fa-cogs"></i></span>   ..How it Works?</h2>
+                    <div class="content has-text-justified">
+                        <p id="method-content">Loading Methodology...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Placeholder for Results / Findings section -->
+    <section class="hero is-light is-small"> <!-- Using hero for a slightly different background -->
+        <div class="hero-body">
+            <div class="container is-max-desktop">
+                <h2 class="title is-3 has-text-centered"><span class="icon"><i class="fas fa-chart-bar"></i></span> Findings</h2>
+                <div class="content has-text-justified">
+                    <p id="results-content">Loading Results...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Placeholder for Citation / BibTeX section -->
+    <section class="section" id="BibTeX">
+      <div class="container is-max-desktop content">
+        <h2 class="title is-3 has-text-centered"><span class="icon"><i class="fas fa-book"></i></span> Citation</h2>
+        <p class="has-text-centered">If you use this work, please cite it as follows:</p>
+        <pre class="selectable"><code>@misc{yourwork2025generic,
+    title={Generic Research Paper Title},
+    author={Author One and Author Two and Author Three},
+    year={2025},
+    publisher={Your Journal/Conference}
+}</code></pre>
+      </div>
+    </section>
+
+    <!-- Original Footer from your EASi page, slightly adapted -->
+    <footer>
+        <div class="footer-content">
+            <div class="initiated-by">
+                <img src="images/logo.png" alt="Initiated by Logo" style="height: 50px;">
+            </div>
+
+            <div class="contact-follow">
+                <div>
+                    <h4>Visit Our Sites</h4>
+                    <a href="https://www.esa.int" target="_blank" title="ESA Website"><i class="fas fa-globe"></i></a>
+                    <a href="https://philab.esa.int" target="_blank" title="PhiLab Website"><i class="fas fa-satellite"></i></a>
+                    <a href="mailto:phi-lab@esa.int" title="Contact Us"><i class="fas fa-envelope"></i></a>
+                </div>
+                <div>
+                    <h4>Follow Us</h4>
+                    <a href="https://www.linkedin.com/groups/8984375/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://github.com/ESA-PhiLab" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+            <div class="legal">
+                <p><a href="#"><span class="icon"><i class="fas fa-user-secret"></i></span> Privacy Policy</a> | <a href="#"><span class="icon"><i class="fas fa-file-contract"></i></span> Terms & Conditions</a></p>
+                <p>Content based on a generic research paper template.</p>
+                <p>Disclaimer: The views expressed on this site are those of the authors.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

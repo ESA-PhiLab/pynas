@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "your_package_name" # Replace with your package name
+version = "0.0.1"
+authors = [
+  { name="Author One", email="author.one@example.com" }, # Replace with actual author details
+  { name="Author Two", email="author.two@example.com" }, # Add more authors as needed
+]
+description = "A short description of the project." # Replace with your project description
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    # Add your project dependencies here, e.g.:
+    # "numpy>=1.20",
+    # "pandas",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/your_username/your_repository_name" # Replace with your project's GitHub URL
+"Bug Tracker" = "https://github.com/your_username/your_repository_name/issues" # Replace

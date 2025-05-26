@@ -1,0 +1,9 @@
+[
+  { "name": "Paper PDF", "url": "#paper-link", "icon": "fas fa-file-pdf" },
+  { "name": "Source Code", "url": "#code-link", "icon": "fab fa-github" },
+  { "name": "Dataset", "url": "#dataset-link", "icon": "fas fa-database" },
+  { "name": "arXiv", "url": "#arxiv-link", "icon": "fas fa-archive" },
+  { "name": "Project Page", "url": "#project-page-link", "icon": "fas fa-project-diagram" },
+  { "name": "Demo", "url": "#demo-link", "icon": "fas fa-video" },
+  { "name": "Presentation Video", "url": "#video-link", "icon": "fab fa-youtube" }
+]

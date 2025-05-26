@@ -1,0 +1,251 @@
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+html {
+  --s: 10px; /* control the size*/
+  --c1: rgba(214, 214, 214, 0.2); /* color of the lines, now 40% opaque */
+  --c2: rgba(235, 235, 235, 0.2); /* color of the fill, now 40% opaque */
+  
+  --c:#0000,var(--c1) .5deg 119.5deg,#0000 120deg;
+  --g1:conic-gradient(from  60deg at 56.25% calc(425%/6),var(--c));
+  --g2:conic-gradient(from 180deg at 43.75% calc(425%/6),var(--c));
+  --g3:conic-gradient(from -60deg at 50%   calc(175%/12),var(--c));
+  background:
+    var(--g1),var(--g1) var(--s) calc(1.73*var(--s)),
+    var(--g2),var(--g2) var(--s) calc(1.73*var(--s)),
+    var(--g3) var(--s) 0,var(--g3) 0 calc(1.73*var(--s)) 
+    var(--c2);
+  background-size: calc(2*var(--s)) calc(3.46*var(--s));
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Keep existing font */
+    margin: 0;
+    background-color: transparent; /* Allow html background to show */
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Navbar styling */
+.navbar.is-dark-blue {
+    background-color: #003366; /* ESA Blue */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+}
+.navbar.is-dark-blue .navbar-item img {
+    max-height: 40px; 
+}
+.navbar.is-dark-blue .navbar-item,
+.navbar.is-dark-blue .navbar-link {
+    color: #ffffff;
+    transition: background-color 0.3s ease;
+}
+.navbar.is-dark-blue .navbar-item:hover,
+.navbar.is-dark-blue .navbar-link:hover {
+    background-color: #004488; /* Darker shade on hover */
+    color: #ffffff;
+}
+
+/* Hero section styling */
+.hero.is-light {
+    background-color: #e9ecef; /* A slightly different light shade for hero */
+    /* border-radius: 0 0 8px 8px; */ /* Rounded bottom corners if it's at the top - can be too much with navbar */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    margin-bottom: 2rem; /* Space below hero */
+}
+.hero .hero-body {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+.publication-title {
+    color: #003366; /* ESA Blue */
+    animation: fadeIn 0.5s ease-out 0.2s forwards;
+    opacity: 0;
+}
+.publication-authors, #author-affiliations, .publication-links {
+    animation: fadeIn 0.5s ease-out 0.4s forwards;
+    opacity: 0;
+}
+
+/* Flex properties removed from this shared rule */
+
+.publication-links {
+    /* Flex properties are now specific to the links container */
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: center; /* Center the buttons */
+    gap: 0.5rem; /* Add some space between buttons */
+    /* The animation and opacity are inherited from the rule above or can be re-declared if needed */
+}
+
+/* Main content sections styling */
+section.section {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.07);
+    margin-top: 1rem; /* Reduced top margin for tighter spacing if preferred */
+    margin-bottom: 2rem;
+    padding: 2rem;
+    animation: fadeIn 0.6s ease-out forwards;
+    opacity: 0; /* Initial state for animation */
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+}
+
+section.section:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+/* Titles within sections */
+section.section .title { /* This targets Bulma's .title class within our sections */
+    color: #003366; 
+    margin-bottom: 1.5rem;
+}
+section.section .title .icon { /* Ensure icon color matches title if icons are used in titles */
+    color: #003366;
+}
+
+
+/* Content styling */
+.content p, .content ul, .content ol {
+    color: #495057; /* Softer text color */
+}
+.content pre { /* BibTeX block */
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 1em;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+    white-space: pre-wrap; /* Allow wrapping for long BibTeX entries */
+    word-break: break-all;
+}
+
+/* Link buttons in hero */
+.publication-links .link-block a.button.is-outlined {
+    border-color: #005288;
+    color: #005288;
+    transition: all 0.3s ease;
+    margin-bottom: 0.5rem; /* Ensure buttons have a little space below them if they wrap */
+}
+.publication-links .link-block a.button.is-outlined:hover {
+    background-color: #005288;
+    color: white;
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 2px 5px rgba(0,82,136,0.3);
+}
+
+/* Footer styling - Reverted and Cleaned */
+footer {
+    background-color: #2c2c2c; /* Original dark grey */
+    color: #ccc;
+    padding: 40px 20px; /* Increased padding */
+    text-align: center; /* Original alignment */
+    border-top: 3px solid #003366; /* Accent border */
+    margin-top: 3rem; /* Space above footer */
+}
+
+.footer-content {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* Original layout */
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.footer-content > div { /* Reverted: remove specific bg/padding from disliked attempt */
+    flex: 1;
+    min-width: 200px;
+    margin-bottom: 20px;
+}
+
+.footer-content h4 { /* Reverted */
+    color: #fff;
+    font-size: 1.2em;
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #555; /* Subtle underline for footer headings */
+}
+
+/* This style is preserved as requested for initiated-by */
+.initiated-by img {
+    max-height: 50px; /* Ensure it doesn't get too big */
+    display: inline-block; /* For proper padding application */
+}
+
+.contact-follow a { /* Original styling for social icons */
+    color: #ccc;
+    text-decoration: none;
+    margin: 0 8px; /* Adjusted margin */
+    font-size: 1.6em; /* Slightly larger */
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+.contact-follow a:hover {
+    color: #fff;
+    transform: scale(1.1);
+}
+
+.legal p { /* Original */
+    font-size: 0.85em;
+    margin-bottom: 8px;
+    color: #aaa;
+}
+.legal a { /* Original */
+    color: #ccc;
+    text-decoration: underline;
+    transition: color 0.3s ease;
+}
+.legal a:hover {
+    color: #fff;
+}
+
+/* Ensure Bulma's list styling is used within .content by default */
+/* If specific list styling outside .content is needed, it can be added here */
+
+/* Responsive adjustments if necessary */
+@media screen and (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+        align-items: center;
+    }
+    .footer-content > div {
+        min-width: 100%;
+        text-align: center;
+    }
+    section.section {
+        padding: 1.5rem;
+        margin-left: 1rem;
+        margin-right: 1rem;
+    }
+    .hero .hero-body {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}
+
+/* Loader styling */
+.loader {
+  height: 80px;
+  aspect-ratio: 1;
+  display: grid;
+}
+.loader:before,
+.loader:after {
+  content: "";
+  --c:no-repeat linear-gradient(#fff 0 0);
+  background: var(--c), var(--c);
+  background-size: 25% 50%;
+  animation: l4 1.5s infinite linear;
+}
+.loader:after {
+  transform: scale(-1);
+}
+@keyframes l4 {
+  0%,
+  10%  {background-position:33.4% 100%,66.6% 100%}
+  40%  {background-position:33.4% 0,100% 100%}
+  70%  {background-position:0 100%,66.6% 0}
+  100% {background-position:33.4% 100%,66.6% 100%}
+}
