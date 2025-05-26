@@ -43,7 +43,8 @@ PyNAS is a modular neural architecture search (NAS) framework developed by ESA Î
 **Note:** This repository currently contains a limited preview of the PyNAS framework. The complete codebase will be publicly disclosed upon the acceptance of our research paper. We appreciate your interest and patience.
 
 
-
+<div style='margin-bottom: 3em;'>
+</div>
 
 | Feature | Description |
 |---------|-------------|
