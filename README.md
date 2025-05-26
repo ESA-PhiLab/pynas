@@ -143,7 +143,7 @@ This project is licensed under the **CC BY-NC-ND 4.0** license. See the [LICENSE
 
 All relevant data supporting the findings of this study are either included in the manuscript and supplementary materials or are publicly available at: 
 
-- [Hugging Face Datasets](https://huggingface.co/datasets/ESA-PhiLab-Edge/LPL-Burned-Area-Seg)
+- [Hugging Face](https://huggingface.co/datasets/ESA-PhiLab-Edge/LPL-Burned-Area-Seg)
 
 
 ### 📥 Data Download Utilities
