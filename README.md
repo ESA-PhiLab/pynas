@@ -81,6 +81,10 @@ More in detail, we design an evolutionary-based NAS framework for onboard proces
 The resulting models, which has been designed on CubeSat-class hardware, i.e. an NVIDIA Jetson AGX Orion and the Intel Movidious Myriad X, exhibits a memory footprint below 1 MB, outperforming handcrafted baselines in terms of latency (3× faster) and maintain competitive mean Intersection over Union (mIoU); additionally enabling real-time, high-resolution inference in orbit.
 
 
+<p align="center">
+    <img src="./docs/images/over.png" alt="overview" width="1350" style='margin-bottom: 1em;'/>
+</p>
+
 ## 🛠️ How to Use
 Detailed instructions to set up and run the project.
 
