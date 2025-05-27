@@ -50,7 +50,7 @@
                 document.getElementById('publication-authors').innerHTML = authorsHtml;
 
                 // Extract all affiliations for each author
-                const authorAffiliations = authorsLine.split(',').map(author => {
+                const affiliationsList = authorsLine.split(',').map(author => {
                   const matches = author.match(/\((\d+)\)/g) || [];
                   return matches.map(m => m.replace(/[()]/g, ''));
                 });
