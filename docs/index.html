@@ -23,7 +23,10 @@
                 const [authorsLine, affiliationsLine] = authorsText.split('\n');
                 const authorsArray = authorsLine.split(',').map(author => author.trim());
                 
-                const authorsHtml = authorsArray.map(author => `<span class="author-block">${author}</span>`).join('');
+                // Add superscript affiliation numbers and proper spacing between authors
+                const authorsHtml = authorsArray.map((author, index) => 
+                  `<span class="author-block">${author}<sup>(${index + 1})</sup></span>`
+                ).join(' ');
                 document.getElementById('publication-authors').innerHTML = authorsHtml;
                 document.getElementById('author-affiliations').innerText = affiliationsLine;
 
