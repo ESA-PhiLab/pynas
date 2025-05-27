@@ -1,2 +1,2 @@
-Author One, Author Two, Author Three
-(1) Affiliation One, (2) Affiliation Two, (3) Affiliation Three
+Roberto Del Prete, Parampuneet Kaur Thind, Andrea Mazzeo, Matthew Whitley, Lorenzo Papa, Nicolas Longépé, Gabriele Meoni
+(1) Φ-lab, European Space Agency (ESA), ESRIN, Via Galileo Galilei, 00044 Frascati, Italy, (2) Little Place Labs Ltd, 128 City Road, London EC1V 2NX, United Kingdom, (3) Department of Industrial Engineering, University of Naples Federico II, Piazzale Tecchio, 80, 80125 Naples, Italy
