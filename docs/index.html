@@ -54,12 +54,6 @@
                   const matches = author.match(/\((\d+)\)/g) || [];
                   return matches.map(m => m.replace(/[()]/g, ''));
                 });
-                
-                // Add superscript affiliation numbers and proper spacing between authors
-                const authorsHtml = authorsArray.map((author, index) => 
-                  `<span class="author-block">${author}<sup>(${index + 1})</sup></span>`
-                ).join(' ');
-                document.getElementById('publication-authors').innerHTML = authorsHtml;
                 document.getElementById('author-affiliations').innerText = affiliationsLine;
 
                 const abstractResponse = await fetch('Abstract.txt');
