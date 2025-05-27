@@ -16,16 +16,12 @@ authors = [
 ]
 maintainers = [{name = "Roberto Del Prete", email = "roberto.delprete@esa.int"}]
 dependencies = [
-  "numpy",
-  "opencv-python",
   "pandas",
   "tqdm",
-  "matplotlib",
   "seaborn",
   "torch",
+  "torchvision",
   "pytorch-lightning",
-  "rasterio",
-  "tifffile"
 ]
 classifiers = [
   "Development Status :: 3 - Alpha",
@@ -41,4 +37,4 @@ classifiers = [
 Source = "https://github.com/ESA-PhiLab/pynas"
 
 [tool.setuptools.packages.find]
-include = ["pynas*"]
+include = ["./src/pynas*"]
