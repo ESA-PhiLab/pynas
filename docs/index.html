@@ -22,12 +22,32 @@
                 const authorsText = await authorsResponse.text();
                 const [authorsLine, affiliationsLine] = authorsText.split('\n');
 
-                // Split by comma and handle complex name-affiliation combinations
-                const authorsArray = authorsLine.split(',').map(author => {
-                  // Extract the name part (everything before the first parenthesis)
-                  const nameMatch = author.match(/(.*?)(\(|$)/);
-                  return nameMatch ? nameMatch[1].trim() : author.trim();
+                // Split by comma and handle name-affiliation combinations
+                const authorsArray = [];
+                const authorAffiliations = [];
+                
+                // Parse authors with their affiliations
+                authorsLine.split(',').forEach(authorEntry => {
+                  // Extract the author name and affiliations
+                  const authorParts = authorEntry.trim().match(/(.*?)\((.*?)\)/);
+                  if (authorParts) {
+                  const authorName = authorParts[1].trim();
+                  const affiliationNumbers = authorParts[2].split(',').map(num => num.trim());
+                  
+                  authorsArray.push(authorName);
+                  authorAffiliations.push(affiliationNumbers);
+                  }
                 });
+                
+                // Generate HTML with proper superscript affiliations
+                const authorsHtml = authorsArray.map((author, index) => {
+                  const superscripts = authorAffiliations[index].map(num => 
+                  `<sup>${num}</sup>`
+                  ).join(',');
+                  return `<span class="author-block">${author}${superscripts}</span>`;
+                }).join(', ');
+                
+                document.getElementById('publication-authors').innerHTML = authorsHtml;
 
                 // Extract all affiliations for each author
                 const authorAffiliations = authorsLine.split(',').map(author => {
