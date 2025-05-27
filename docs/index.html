@@ -22,37 +22,28 @@
                 const authorsText = await authorsResponse.text();
                 const [authorsLine, affiliationsLine] = authorsText.split('\n');
 
-                // Split by comma and handle name-affiliation combinations
+                // Split by semicolon and handle name-affiliation combinations
                 const authorsArray = [];
                 const authorAffiliations = [];
                 
                 // Parse authors with their affiliations
-                authorsLine.split(',').forEach(authorEntry => {
+                authorsLine.split(';').forEach(authorEntry => {
                   // Extract the author name and affiliations using regex that handles multiple affiliations
                   const authorParts = authorEntry.trim().match(/(.*?)\(([0-9,\s]+)\)/);
                   if (authorParts) {
-                    const authorName = authorParts[1].trim();
-                    // Split by comma and trim each affiliation number
-                    const affiliationNumbers = authorParts[2].split(',').map(num => num.trim());
-                    
-                    authorsArray.push(authorName);
-                    authorAffiliations.push(affiliationNumbers);
-                  } else {
-                    // Handle authors without affiliations
-                    const authorName = authorEntry.trim();
+                  const authorName = authorParts[1].trim();
+                  // Split by comma and trim each affiliation number
+                  const affiliationNumbers = authorParts[2].split(',').map(num => num.trim());
+                  
+                  authorsArray.push(authorName);
+                  authorAffiliations.push(affiliationNumbers);
+                  }
+                });
+                
                 // Generate HTML with proper superscript affiliations
                 const authorsHtml = authorsArray.map((author, index) => {
-                  if (authorAffiliations[index].length > 0) {
-                    return `<span class="author-block">${author}<sup>${authorAffiliations[index].join(',')}</sup></span>`;
-                  } else {
-                    return `<span class="author-block">${author}</span>`;
-                  }
-                }).join(', ');
-                  const superscripts = authorAffiliations[index].map(num => 
-                  `<sup>${num}</sup>`
-                  ).join(',');
                   return `<span class="author-block">${author}<sup>${authorAffiliations[index].join(',')}</sup></span>`;
-                }).join(', ');
+                }).join('; ');
                 
                 document.getElementById('publication-authors').innerHTML = authorsHtml;
 
