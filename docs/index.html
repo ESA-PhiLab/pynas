@@ -21,7 +21,19 @@
                 const authorsResponse = await fetch('Authors.txt');
                 const authorsText = await authorsResponse.text();
                 const [authorsLine, affiliationsLine] = authorsText.split('\n');
-                const authorsArray = authorsLine.split(',').map(author => author.trim());
+
+                // Split by comma and handle complex name-affiliation combinations
+                const authorsArray = authorsLine.split(',').map(author => {
+                  // Extract the name part (everything before the first parenthesis)
+                  const nameMatch = author.match(/(.*?)(\(|$)/);
+                  return nameMatch ? nameMatch[1].trim() : author.trim();
+                });
+
+                // Extract all affiliations for each author
+                const authorAffiliations = authorsLine.split(',').map(author => {
+                  const matches = author.match(/\((\d+)\)/g) || [];
+                  return matches.map(m => m.replace(/[()]/g, ''));
+                });
                 
                 // Add superscript affiliation numbers and proper spacing between authors
                 const authorsHtml = authorsArray.map((author, index) => 
