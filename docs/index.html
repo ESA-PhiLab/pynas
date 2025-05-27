@@ -28,10 +28,11 @@
                 
                 // Parse authors with their affiliations
                 authorsLine.split(',').forEach(authorEntry => {
-                  // Extract the author name and affiliations
-                  const authorParts = authorEntry.trim().match(/(.*?)\((.*?)\)/);
+                  // Extract the author name and affiliations using regex that handles multiple affiliations
+                  const authorParts = authorEntry.trim().match(/(.*?)\(([0-9,\s]+)\)/);
                   if (authorParts) {
                   const authorName = authorParts[1].trim();
+                  // Split by comma and trim each affiliation number
                   const affiliationNumbers = authorParts[2].split(',').map(num => num.trim());
                   
                   authorsArray.push(authorName);
@@ -44,7 +45,7 @@
                   const superscripts = authorAffiliations[index].map(num => 
                   `<sup>${num}</sup>`
                   ).join(',');
-                  return `<span class="author-block">${author}${superscripts}</span>`;
+                  return `<span class="author-block">${author}<sup>${authorAffiliations[index].join(',')}</sup></span>`;
                 }).join(', ');
                 
                 document.getElementById('publication-authors').innerHTML = authorsHtml;
