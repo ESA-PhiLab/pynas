@@ -51,7 +51,7 @@ PyNAS is a modular neural architecture search (NAS) framework developed by ESA �
 | Python Support | [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/) |
 | PyPi | Coming soon 🚧 |
 | License | [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) |
-| Documentation | Coming soon 🚧 |
+| Documentation | [![Documentation Status](https://img.shields.io/badge/docs-latest-green.svg)](https://sirbastiano.github.io/pynas-docs/) |
 | Contributions | [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://makeapullrequest.com) |
 
 
