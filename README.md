@@ -27,7 +27,7 @@
 
 
 
-# 🧬 pynas
+# 🧬 pynas <a href="https://github.com/ESA-PhiLab/pynas"><img src="./docs/images/pynas.png" align="right" height="160" alt="website" /></a>
 
 PyNAS is a modular neural architecture search (NAS) framework developed by ESA Φ-lab and Little Place Lab, specifically designed for deployment optimization on edge devices. It leverages advanced metaheuristic strategies, primarily Genetic Algorithms (GA) 🧬, to efficiently identify optimal deep learning architectures for constrained environments.
 
@@ -47,7 +47,6 @@ PyNAS is a modular neural architecture search (NAS) framework developed by ESA �
 
 | Feature | Description |
 |---------|-------------|
-| <img src="./docs/images/pynas.png" width="120"> |  |
 | Python Support | [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/) |
 | PyPi | Coming soon 🚧 |
 | License | [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) |
