@@ -1084,7 +1084,9 @@ class Population:
         if training_workers == 1 or len(pending_indices) <= 1:
             for idx in pending_indices:
                 print(f"Training individual {idx}/{len(self)}")
-                self.train_individual(idx=idx, task=task, lr=lr, epochs=epochs, batch_size=batch_size)
+                self.train_individual(
+                    idx=idx, task=task, lr=lr, epochs=epochs, batch_size=batch_size
+                )
             return
 
         max_workers = min(training_workers, len(pending_indices))
