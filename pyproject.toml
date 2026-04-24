@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "esa-pynas"
-version = "0.1.1"
+version = "0.1.2"
 description = "PyNAS, a Python package for Neural Architecture Search experiments"
 readme = {file = "README.md", content-type = "text/markdown"}
 requires-python = ">=3.11,<3.15"

@@ -72,7 +72,7 @@ publish-testpypi: check-dist
 	if [ -z "$$pypi_token" ]; then echo "Missing pypi_token in .env"; exit 1; fi; \
 	TWINE_USERNAME=__token__ TWINE_PASSWORD="$$pypi_token" $(UV)x --from twine twine upload --repository testpypi $(DIST_FILES)
 
-publish-pypi:
+publish:
 	@$(MAKE) bump-version
 	@$(MAKE) check-dist
 	@pypi_token="$$(awk -F= '/^[[:space:]]*pypi_token[[:space:]]*=/ {sub(/^[^=]*=[[:space:]]*/, ""); print; exit}' .env)"; \
