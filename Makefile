@@ -1,4 +1,4 @@
-.PHONY: build build-wheels bump-version check-deps-platforms check-dist check-universal-wheel clean dev format help install lint lock publish-pypi publish-testpypi test
+.PHONY: build build-wheels bump-version check-deps-platforms check-dist check-universal-wheel clean dev format help install lint lock publish publish-pypi publish-testpypi test
 
 UV := uv
 DIST_FILES := dist/*
@@ -74,10 +74,13 @@ publish-testpypi: check-dist
 
 publish:
 	@$(MAKE) bump-version
+	@$(MAKE) lock
 	@$(MAKE) check-dist
 	@pypi_token="$$(awk -F= '/^[[:space:]]*pypi_token[[:space:]]*=/ {sub(/^[^=]*=[[:space:]]*/, ""); print; exit}' .env)"; \
 	if [ -z "$$pypi_token" ]; then echo "Missing pypi_token in .env"; exit 1; fi; \
 	TWINE_USERNAME=__token__ TWINE_PASSWORD="$$pypi_token" $(UV)x --from twine twine upload --repository pypi $(DIST_FILES)
+
+publish-pypi: publish
 
 clean:
 	@rm -rf .venv build dist *.egg-info .pytest_cache .coverage .mypy_cache .ruff_cache
@@ -97,5 +100,6 @@ help:
 	@echo "  check-universal-wheel - Verify wheel tag is py3-none-any"
 	@echo "  check-dist        - Build and validate wheel/sdist metadata with twine"
 	@echo "  publish-testpypi  - Build, validate, and upload dist files to TestPyPI"
-	@echo "  publish-pypi      - Bump version, build, validate, and upload dist files to PyPI"
+	@echo "  publish           - Bump version, refresh uv.lock, build, validate, and upload dist files to PyPI"
+	@echo "  publish-pypi      - Alias for publish"
 	@echo "  clean    - Remove local build and cache artifacts"

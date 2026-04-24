@@ -5,9 +5,9 @@
 <p align="center">
   <a href="https://github.com/ESA-PhiLab/pynas/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/ESA-PhiLab/pynas/actions/workflows/ci.yml/badge.svg" /></a>
   <a href="https://www.python.org/downloads/"><img alt="Python 3.11+" src="https://img.shields.io/badge/python-3.11+-blue.svg" /></a>
-  <a href="https://github.com/ESA-PhiLab/pynas"><img alt="Version" src="https://img.shields.io/badge/version-0.1.0-informational.svg" /></a>
+  <a href="https://github.com/ESA-PhiLab/pynas"><img alt="Version" src="https://img.shields.io/badge/version-0.1.2-informational.svg" /></a>
   <a href="https://www.apache.org/licenses/LICENSE-2.0"><img alt="License: Apache 2.0" src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" /></a>
-  <a href="https://doi.org/10.5281/zenodo.15332053"><img alt="DOI" src="https://zenodo.org/badge/DOI/10.5281/zenodo.15332053.svg" /></a>
+  <a href="https://zenodo.org/"><img alt="Zenodo DOI pending" src="https://img.shields.io/badge/Zenodo-DOI_pending-lightgrey" /></a>
 </p>
 
 # PyNAS
@@ -33,7 +33,7 @@ PyNAS provides building blocks for evolutionary NAS experiments, with an emphasi
 | Item | Status |
 | --- | --- |
 | Package name | `esa-pynas` |
-| Version | `0.1.0` |
+| Version | `0.1.2` |
 | Python support | `>=3.11,<3.15` |
 | Distribution | Local checkout; PyPI publication planned |
 | License | Apache 2.0 |
@@ -127,23 +127,30 @@ Spaceborne edge computing enables AI-capable CubeSats to process data onboard, r
 
 PyNAS explores evolutionary Neural Architecture Search for this setting. The framework is designed around compact segmentation architectures and hardware-aware optimization for CubeSat-class platforms such as NVIDIA Jetson AGX Orin and Intel Movidius Myriad X targets.
 
+The research motivation and validation details are described in the accompanying Scientific Reports article, "Optimizing deep learning models for on-orbit deployment through neural architecture search" ([DOI: 10.1038/s41598-025-21467-8](https://doi.org/10.1038/s41598-025-21467-8)).
+
 ## Documentation
 
 - Project documentation: [sirbastiano.github.io/pynas-docs](https://sirbastiano.github.io/pynas-docs/)
 - Source repository: [github.com/ESA-PhiLab/pynas](https://github.com/ESA-PhiLab/pynas)
+- Scientific Reports paper: [Optimizing deep learning models for on-orbit deployment through neural architecture search](https://www.nature.com/articles/s41598-025-21467-8)
 - ESA Phi-lab: [philab.esa.int](https://philab.esa.int)
 - Little Place Lab: [littleplace.com](https://www.littleplace.com)
 
 ## Citation
 
-If you use PyNAS in academic work, cite the Zenodo record below. A paper-specific citation will be added when the associated manuscript is available.
+If you use PyNAS in academic work, cite the Scientific Reports paper below. Add the Zenodo software citation as well once the project DOI is published.
 
 ```bibtex
-@software{pynas_zenodo_15332053,
-  title = {PyNAS},
-  publisher = {Zenodo},
-  doi = {10.5281/zenodo.15332053},
-  url = {https://doi.org/10.5281/zenodo.15332053}
+@article{delprete2025pynas,
+  title = {Optimizing deep learning models for on-orbit deployment through neural architecture search},
+  author = {Del Prete, Roberto and Thind, Parampuneet Kaur and Mazzeo, Andrea and Whitley, Matthew and Papa, Lorenzo and Long{\'e}p{\'e}, Nicolas and Meoni, Gabriele},
+  journal = {Scientific Reports},
+  volume = {15},
+  pages = {37783},
+  year = {2025},
+  doi = {10.1038/s41598-025-21467-8},
+  url = {https://doi.org/10.1038/s41598-025-21467-8}
 }
 ```
 
