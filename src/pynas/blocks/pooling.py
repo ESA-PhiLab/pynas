@@ -15,10 +15,9 @@ class AvgPool(nn.Sequential):
     Example Usage:
         avg_pool_layer = AvgPool(kernel_size=2, stride=2)
     """
+
     def __init__(self, kernel_size=2, stride=2):
-        super(AvgPool, self).__init__(
-            nn.AvgPool2d(kernel_size, stride)
-        )
+        super(AvgPool, self).__init__(nn.AvgPool2d(kernel_size, stride))
 
 
 class MaxPool(nn.Sequential):
@@ -36,9 +35,8 @@ class MaxPool(nn.Sequential):
     Example Usage:
         max_pool_layer = MaxPool(kernel_size=2, stride=2, padding=0)
     """
+
     def __init__(self, kernel_size=2, stride=None, padding=0):
         if stride is None:
             stride = kernel_size
-        super(MaxPool, self).__init__(
-            nn.MaxPool2d(kernel_size, stride, padding)
-        )
+        super(MaxPool, self).__init__(nn.MaxPool2d(kernel_size, stride, padding))

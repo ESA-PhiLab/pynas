@@ -6,12 +6,14 @@ import torchmetrics
 import pytorch_lightning as pl
 from torchmetrics import MeanSquaredError
 
-import os 
+import os
 from datetime import datetime
+from pathlib import Path
 import matplotlib.pyplot as plt
 
 from ..train.losses import CategoricalCrossEntropyLoss, FocalLoss
 from ..train.custom_iou import calculate_iou
+from .generic_unet import GenericUNetNetwork
 
 
 class GenericLightningNetwork(pl.LightningModule):
@@ -21,22 +23,26 @@ class GenericLightningNetwork(pl.LightningModule):
         self.model = model
         self._initialize_metrics(num_classes)
 
-
-
     def _initialize_metrics(self, num_classes):
         # Metrics
         if num_classes > 2:
             self.loss_fn = nn.CrossEntropyLoss()
             self.accuracy = torchmetrics.classification.MulticlassAccuracy(num_classes=num_classes)
             self.f1_score = torchmetrics.classification.MulticlassF1Score(num_classes=num_classes)
-            self.mcc = torchmetrics.classification.MulticlassMatthewsCorrCoef(num_classes=num_classes)
-            self.conf_matrix = torchmetrics.classification.MulticlassConfusionMatrix(num_classes=num_classes)
-            self.conf_matrix_pred = torchmetrics.classification.MulticlassConfusionMatrix(num_classes=num_classes)
+            self.mcc = torchmetrics.classification.MulticlassMatthewsCorrCoef(
+                num_classes=num_classes
+            )
+            self.conf_matrix = torchmetrics.classification.MulticlassConfusionMatrix(
+                num_classes=num_classes
+            )
+            self.conf_matrix_pred = torchmetrics.classification.MulticlassConfusionMatrix(
+                num_classes=num_classes
+            )
         else:
             self.loss_fn = nn.CrossEntropyLoss()
             self.accuracy = torchmetrics.classification.BinaryAccuracy()
             self.f1_score = torchmetrics.classification.BinaryF1Score()
-            self.mcc = torchmetrics.classification.matthews_corrcoef.BinaryMatthewsCorrCoef()
+            self.mcc = torchmetrics.classification.BinaryMatthewsCorrCoef()
             self.conf_matrix = torchmetrics.classification.BinaryConfusionMatrix()
             self.conf_matrix_pred = torchmetrics.classification.BinaryConfusionMatrix()
 
@@ -49,16 +55,17 @@ class GenericLightningNetwork(pl.LightningModule):
         accuracy = self.accuracy(torch.argmax(scores, dim=1), y)
         f1_score = self.f1_score(torch.argmax(scores, dim=1), y)
         mcc = self.mcc(torch.argmax(scores, dim=1), y)
-        self.log_dict({
-            'train_loss': loss,
-            'train_accuracy': accuracy,
-            'train_f1_score': f1_score,
-            'train_mcc': mcc.float(),
-        },
+        self.log_dict(
+            {
+                "train_loss": loss,
+                "train_accuracy": accuracy,
+                "train_f1_score": f1_score,
+                "train_mcc": mcc.float(),
+            },
             on_step=False,
             on_epoch=True,
             prog_bar=True,
-            logger=True
+            logger=True,
         )
         return loss
 
@@ -73,6 +80,7 @@ class GenericLightningNetwork(pl.LightningModule):
 
     def test_step(self, batch, batch_idx):
         import time
+
         x, y = batch
 
         start_time = time.time()
@@ -88,29 +96,30 @@ class GenericLightningNetwork(pl.LightningModule):
         mcc = self.mcc(torch.argmax(scores, dim=1), y)
         self.conf_matrix.update(torch.argmax(scores, dim=1), y)
         self.conf_matrix.compute()
-        self.log_dict({
-            'test_loss': loss,
-            'test_accuracy': accuracy,
-            'test_f1_score': f1_score,
-            'test_mcc': mcc.float(),
-            'fps': fps,
-        },
+        self.log_dict(
+            {
+                "test_loss": loss,
+                "test_accuracy": accuracy,
+                "test_f1_score": f1_score,
+                "test_mcc": mcc.float(),
+                "fps": fps,
+            },
             on_step=False,
             on_epoch=True,
             prog_bar=True,
-            logger=True
+            logger=True,
         )
         return loss
 
-
     def on_test_end(self):
         self.conf_matrix.plot()  # to plot and save confusion matrix
-        plt.xlabel('Prediction')
-        plt.ylabel('Class')
+        plt.xlabel("Prediction")
+        plt.ylabel("Class")
         current_datetime = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        os.makedirs(rf"./logs/tb_logs", exist_ok=True)
-        plt.savefig(rf"./logs/tb_logs/confusion_matrix_{current_datetime}.png")
-        plt.show()
+        output_dir = Path("logs") / "tb_logs"
+        output_dir.mkdir(parents=True, exist_ok=True)
+        plt.savefig(output_dir / f"confusion_matrix_{current_datetime}.png")
+        plt.close()
 
     def _common_step(self, batch, _):
         x, y = batch
@@ -128,7 +137,7 @@ class GenericLightningNetwork(pl.LightningModule):
         self.conf_matrix_pred.update(preds, y)
         self.conf_matrix_pred.compute()
 
-        print(f"Accuracy: {accuracy:.3f}")   
+        print(f"Accuracy: {accuracy:.3f}")
         print(f"F1-score: {f1_score:.3f}")
         print(f"MCC: {mcc:.3f} ")
         return preds
@@ -144,15 +153,16 @@ class GenericLightningNetwork(pl.LightningModule):
     """
 
     def configure_optimizers(self):
-        optimizer = optim.Adam(self.model.parameters(), lr=self.lr)  # 1e-3 is a sane default value for lr
+        optimizer = optim.Adam(
+            self.model.parameters(), lr=self.lr
+        )  # 1e-3 is a sane default value for lr
         return optimizer
-
 
 
 class GenericLightningSegmentationNetwork(pl.LightningModule):
     """
-    GenericLightningSegmentationNetwork is a PyTorch Lightning module designed for segmentation tasks. 
-    It wraps a given model and provides training, validation, testing, and prediction steps, 
+    GenericLightningSegmentationNetwork is a PyTorch Lightning module designed for segmentation tasks.
+    It wraps a given model and provides training, validation, testing, and prediction steps,
     along with logging for loss, mean squared error (MSE), and intersection over union (IoU).
     Attributes:
         model (torch.nn.Module): The segmentation model to be trained and evaluated.
@@ -176,12 +186,14 @@ class GenericLightningSegmentationNetwork(pl.LightningModule):
         configure_optimizers():
             Configures the optimizer for training. Uses Adam optimizer with the specified learning rate.
     """
+
     def __init__(self, model, learning_rate=1e-3):
         super(GenericLightningSegmentationNetwork, self).__init__()
         self.lr = learning_rate
         self.model = model
-        
-        #self.loss_fn = CategoricalCrossEntropyLoss()
+        self.num_classes = getattr(model, "num_classes", None)
+
+        # self.loss_fn = CategoricalCrossEntropyLoss()
         self.loss_fn = FocalLoss()
         self.mse = MeanSquaredError()
         self.iou = calculate_iou
@@ -194,28 +206,38 @@ class GenericLightningSegmentationNetwork(pl.LightningModule):
         logits = self(x)
         loss = self.loss_fn(logits, y)
         mse = self.mse(logits, y)
-        iou = self.iou(logits, y).mean()  # Compute mean IoU for logging
+        num_classes = self.num_classes or logits.shape[1]
+        iou = self.iou(logits, y, num_classes=num_classes).mean()  # Compute mean IoU for logging
         return loss, mse, iou
 
     def training_step(self, batch, batch_idx):
         loss, mse, iou = self._common_step(batch, batch_idx)
-        self.log('train_loss', loss)
-        self.log('train_mse', mse)
-        self.log('train_iou', iou)
+        self.log("train_loss", loss)
+        self.log("train_mse", mse)
+        self.log("train_iou", iou)
         return loss
 
     def validation_step(self, batch, batch_idx):
         loss, mse, iou = self._common_step(batch, batch_idx)
-        self.log('val_loss', loss)
-        self.log('val_mse', mse)
-        self.log('val_iou', iou)
+        self.log("val_loss", loss)
+        self.log("val_mse", mse)
+        self.log("val_iou", iou)
         return loss
 
     def test_step(self, batch, batch_idx):
+        import time
+
+        x, _ = batch
+        start_time = time.time()
         loss, mse, iou = self._common_step(batch, batch_idx)
-        self.log('test_loss', loss)
-        self.log('test_mse', mse)
-        self.log('test_iou', iou)
+        if x.is_cuda:
+            torch.cuda.synchronize()
+        elapsed_time = time.time() - start_time
+        fps = x.shape[0] / elapsed_time if elapsed_time > 0 else 0.0
+        self.log("test_loss", loss)
+        self.log("test_mse", mse)
+        self.log("test_iou", iou)
+        self.log("fps", fps)
         return loss
 
     def predict_step(self, batch, batch_idx, dataloader_idx=0):
@@ -229,14 +251,18 @@ class GenericLightningSegmentationNetwork(pl.LightningModule):
 
 
 class GenericLightningNetwork_Custom(pl.LightningModule):
-    def __init__(self, parsed_layers, model_parameters, input_channels, num_classes, learning_rate=1e-3):
+    def __init__(
+        self, parsed_layers, model_parameters, input_channels, num_classes, learning_rate=1e-3
+    ):
         super(GenericLightningNetwork_Custom, self).__init__()
         self.lr = learning_rate
-        self.model = GenericNetwork(
+        model_parameters = model_parameters or {}
+        self.model = GenericUNetNetwork(
             parsed_layers=parsed_layers,
-            model_parameters=model_parameters,
             input_channels=input_channels,
             num_classes=num_classes,
+            input_height=model_parameters.get("input_height", 256),
+            input_width=model_parameters.get("input_width", 256),
         )
         self.class_weights = None  # Initialize with a default value
 
@@ -244,7 +270,7 @@ class GenericLightningNetwork_Custom(pl.LightningModule):
         self.loss_fn = ce_loss  # Use custom loss function
         self.accuracy = torchmetrics.classification.BinaryAccuracy()
         self.f1_score = torchmetrics.classification.BinaryF1Score()
-        self.mcc = torchmetrics.classification.matthews_corrcoef.BinaryMatthewsCorrCoef()
+        self.mcc = torchmetrics.classification.BinaryMatthewsCorrCoef()
         self.conf_matrix = torchmetrics.classification.BinaryConfusionMatrix()
         self.conf_matrix_pred = torchmetrics.classification.BinaryConfusionMatrix()
 
@@ -253,7 +279,9 @@ class GenericLightningNetwork_Custom(pl.LightningModule):
 
     def on_train_start(self):
         # Ensure the datamodule is attached and has class_weights
-        if hasattr(self.trainer, 'datamodule') and hasattr(self.trainer.datamodule, 'class_weights'):
+        if hasattr(self.trainer, "datamodule") and hasattr(
+            self.trainer.datamodule, "class_weights"
+        ):
             self.class_weights = self.trainer.datamodule.class_weights.to(self.device)
             print(f"GenericLightningNetwork class_weights set: {self.class_weights}")
         else:
@@ -265,16 +293,17 @@ class GenericLightningNetwork_Custom(pl.LightningModule):
         accuracy = self.accuracy(torch.argmax(scores, dim=1), y)
         f1_score = self.f1_score(torch.argmax(scores, dim=1), y)
         mcc = self.mcc(torch.argmax(scores, dim=1), y)
-        self.log_dict({
-            'train_loss': loss,
-            'train_accuracy': accuracy,
-            'train_f1_score': f1_score,
-            'train_mcc': mcc.float(),
-        },
+        self.log_dict(
+            {
+                "train_loss": loss,
+                "train_accuracy": accuracy,
+                "train_f1_score": f1_score,
+                "train_mcc": mcc.float(),
+            },
             on_step=False,
             on_epoch=True,
             prog_bar=True,
-            logger=True
+            logger=True,
         )
         return loss
 
@@ -295,32 +324,37 @@ class GenericLightningNetwork_Custom(pl.LightningModule):
         mcc = self.mcc(torch.argmax(scores, dim=1), y)
         self.conf_matrix.update(torch.argmax(scores, dim=1), y)
         self.conf_matrix.compute()
-        self.log_dict({
-            'test_loss': loss,
-            'test_accuracy': accuracy,
-            'test_f1_score': f1_score,
-            'test_mcc': mcc.float(),
-        },
+        self.log_dict(
+            {
+                "test_loss": loss,
+                "test_accuracy": accuracy,
+                "test_f1_score": f1_score,
+                "test_mcc": mcc.float(),
+            },
             on_step=False,
             on_epoch=True,
             prog_bar=True,
-            logger=True
+            logger=True,
         )
         return loss
 
     def on_test_end(self):
         fig_, ax_ = self.conf_matrix.plot()  # to plot and save confusion matrix
-        plt.xlabel('Prediction')
-        plt.ylabel('Class')
+        plt.xlabel("Prediction")
+        plt.ylabel("Class")
         current_datetime = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        plt.savefig(rf"./logs/tb_logs/confusion_matrix_{current_datetime}.png")
-        # plt.show()
+        output_dir = Path("logs") / "tb_logs"
+        output_dir.mkdir(parents=True, exist_ok=True)
+        plt.savefig(output_dir / f"confusion_matrix_{current_datetime}.png")
+        plt.close()
 
     def _common_step(self, batch, batch_idx):
         x, y = batch
         scores = self.forward(x)
         if self.class_weights is not None:
-            loss = self.loss_fn(logits=scores, targets=y, weight=self.class_weights, use_hard_labels=True)
+            loss = self.loss_fn(
+                logits=scores, targets=y, weight=self.class_weights, use_hard_labels=True
+            )
         else:
             loss = self.loss_fn(logits=scores, targets=y, use_hard_labels=True)
 
@@ -342,8 +376,6 @@ class GenericLightningNetwork_Custom(pl.LightningModule):
         print(f"MCC: {mcc:.3f} ")
         return preds
 
-
-
     def configure_optimizers(self):
         optimizer = optim.Adam(self.parameters(), lr=self.lr)  # 1e-3 is a sane default value for lr
         return optimizer
@@ -362,9 +394,7 @@ def ce_loss(logits, targets, weight=None, use_hard_labels=True, reduction="none"
     """
     if use_hard_labels:
         if weight is not None:
-            return F.cross_entropy(
-                logits, targets.long(), weight=weight, reduction=reduction
-            )
+            return F.cross_entropy(logits, targets.long(), weight=weight, reduction=reduction)
         else:
             return F.cross_entropy(logits, targets.long(), reduction=reduction)
     else:
@@ -372,4 +402,3 @@ def ce_loss(logits, targets, weight=None, use_hard_labels=True, reduction="none"
         log_pred = F.log_softmax(logits, dim=-1)
         nll_loss = torch.sum(-targets * log_pred, dim=1)
         return nll_loss
-

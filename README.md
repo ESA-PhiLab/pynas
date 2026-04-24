@@ -1,168 +1,166 @@
-![GitHub stars](https://img.shields.io/github/stars/ESA-PhiLab/pynas.svg)
-![GitHub forks](https://img.shields.io/github/forks/ESA-PhiLab/pynas.svg)
-![GitHub issues](https://img.shields.io/github/issues/ESA-PhiLab/pynas.svg)
-![GitHub pull requests](https://img.shields.io/github/issues-pr/ESA-PhiLab/pynas.svg)
-![GitHub last commit](https://img.shields.io/github/last-commit/ESA-PhiLab/pynas.svg)
-![GitHub code size](https://img.shields.io/github/languages/code-size/ESA-PhiLab/pynas.svg)
-![GitHub top language](https://img.shields.io/github/languages/top/ESA-PhiLab/pynas.svg)
-![GitHub repo size](https://img.shields.io/github/repo-size/ESA-PhiLab/pynas.svg)
-![GitHub contributors](https://img.shields.io/github/contributors/ESA-PhiLab/pynas.svg)
-[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
-[![Documentation Status](https://img.shields.io/badge/docs-latest-green.svg)](https://github.com/ESA-PhiLab/pynas/wiki)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://makeapullrequest.com)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15332053.svg)](https://doi.org/10.5281/zenodo.15332053)
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-
-
-<p align="right">
-<img src="./docs/images/banner.png" alt="ESA-PhiLab Logo" width="2500" style='margin-bottom: 0em;'/>
+<p align="center">
+  <img src="https://raw.githubusercontent.com/ESA-PhiLab/pynas/main/docs/images/banner.png" alt="ESA Phi-lab and PyNAS banner" width="100%" />
 </p>
-
-### > powered by:
 
 <p align="center">
-    <img src="./docs/images/lpl.jpg" alt="LPL Logo" width="350" style='margin-bottom: 1em;'/>
+  <a href="https://github.com/ESA-PhiLab/pynas/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/ESA-PhiLab/pynas/actions/workflows/ci.yml/badge.svg" /></a>
+  <a href="https://www.python.org/downloads/"><img alt="Python 3.11+" src="https://img.shields.io/badge/python-3.11+-blue.svg" /></a>
+  <a href="https://github.com/ESA-PhiLab/pynas"><img alt="Version" src="https://img.shields.io/badge/version-0.1.0-informational.svg" /></a>
+  <a href="https://www.apache.org/licenses/LICENSE-2.0"><img alt="License: Apache 2.0" src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" /></a>
+  <a href="https://doi.org/10.5281/zenodo.15332053"><img alt="DOI" src="https://zenodo.org/badge/DOI/10.5281/zenodo.15332053.svg" /></a>
 </p>
 
+# PyNAS
+
+**PyNAS** is a Python framework for Neural Architecture Search (NAS) experiments focused on resource-constrained, edge-deployable deep learning models.
+The project is developed by ESA Phi-lab with Little Place Lab and targets workflows where model accuracy, memory footprint, and deployment cost must be considered together.
 
 
+## Why PyNAS
 
-# 🧬 pynas <a href="https://github.com/ESA-PhiLab/pynas"><img src="./docs/images/pynas.png" align="right" height="160" alt="website" /></a>
+PyNAS provides building blocks for evolutionary NAS experiments, with an emphasis on compact neural networks for onboard and edge AI use cases.
 
-PyNAS is a modular neural architecture search (NAS) framework developed by ESA Φ-lab and Little Place Lab, specifically designed for deployment optimization on edge devices. It leverages advanced metaheuristic strategies, primarily Genetic Algorithms (GA) 🧬, to efficiently identify optimal deep learning architectures for constrained environments.
+| Area | What is included |
+| --- | --- |
+| Architecture generation | Utilities for generating, parsing, and rebuilding architecture codes |
+| Search operators | Genetic mutation and single-point crossover primitives |
+| Model blocks | Convolutional, pooling, activation, residual, classifier, and U-Net components |
+| Training utilities | PyTorch Lightning modules, segmentation losses, metrics, and early stopping helpers |
+| Data utilities | Hugging Face dataset download helper with retry handling |
 
-### Key Features
-- 🧬 Metaheuristic Optimisation: Utilizes Genetic Algorithms (GA) for robust architecture optimization.
-- 🔍 Model Architecture Selection: Automates the selection of optimal architectures for specific onboard applications.
-- 📱 Edge Device Compatibility: Tailored for efficient deployment on various edge devices.
-- 📊 Performance Metrics: Evaluates architectures based on predefined or custom metrics relevant to edge computing.
+## Project Status
 
+| Item | Status |
+| --- | --- |
+| Package name | `esa-pynas` |
+| Version | `0.1.0` |
+| Python support | `>=3.11,<3.15` |
+| Distribution | Local checkout; PyPI publication planned |
+| License | Apache 2.0 |
+| Development status | Alpha / research preview |
 
+## Installation
 
-> [!WARNING] 🚧 Work In Progress: 
-> This repository currently contains a limited preview of the PyNAS framework. The complete codebase will be publicly disclosed upon the acceptance of our research paper. We appreciate your interest and patience.
+PyNAS uses `uv` for reproducible dependency management. From a local checkout:
 
-
-&nbsp;
-
-| Feature | Description |
-|---------|-------------|
-| Python Support | [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/) |
-| PyPi | Coming soon 🚧 |
-| License | [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) |
-| Documentation | [![Documentation Status](https://img.shields.io/badge/docs-latest-green.svg)](https://sirbastiano.github.io/pynas-docs/) |
-| Contributions | [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://makeapullrequest.com) |
-
-
-
-## 👥 Authors
-
- - Roberto Del Prete 🎓 ([Google Scholar](https://scholar.google.com/citations?user=Dwc8YxwAAAAJ))
- - Parampuneet Thind 🤖 ([Google Scholar](https://scholar.google.com/citations?user=Q71ynAkAAAAJ&hl=en&oi=sra))
- - Andrea Mazzeo 🧠 
- - Lorenzo Papa 🛰️ ([Google Scholar](https://scholar.google.com/citations?user=P64hj-4AAAAJ))
- - Matthew Whitley 📡 
- - Gabriele Meoni 🔬 ([Google Scholar](https://scholar.google.com/citations?user=vv34M9QAAAAJ))
- - Nicolas Longepe 🌍 ([Google Scholar](https://scholar.google.com/citations?user=YVVkIX8AAAAJ))
-
-## 📖 Reference
-Specify the type and context of the project.
-
-- ESA Φ-lab Research Fellowship — [Link to ESA page](https://philab.esa.int)
-- Little Place Lab — [Link to LPL page](https://www.littleplace.com)
-
-
-## 📝 Abstract
-Advancements in spaceborne edge computing has facilitated the incorporation of AI-powered chips into CubeSats, allowing for intelligent data handling and enhanced analytical capabilities with greater operational autonomy.
-This class of satellites face stringent energy and memory constraints, thus necessitating lightweight models which are often obtained by compression techniques.
-This paper addresses model compression by Neural Architecture Search (NAS) to enable computational efficiency and balance between accuracy, size, and latency.
-More in detail, we design an evolutionary-based NAS framework for onboard processing and test its capabilities on the burned area segmentation test case. The proposed solution jointly optimizes network architecture and deployment for hardware-specific resource-constrained platforms. Additionally, hardware-awareness is introduced in the optimization loop for tailoring the network topology to the specific target edge computing chip.
-The resulting models, which has been designed on CubeSat-class hardware, i.e. an NVIDIA Jetson AGX Orion and the Intel Movidious Myriad X, exhibits a memory footprint below 1 MB, outperforming handcrafted baselines in terms of latency (3× faster) and maintain competitive mean Intersection over Union (mIoU); additionally enabling real-time, high-resolution inference in orbit.
-
-
-<p align="center">
-    <img src="./docs/images/over.png" alt="overview" width="1350" style='margin-bottom: 1em;'/>
-</p>
-
-## 🛠️ How to Use
-Detailed instructions to set up and run the project.
-
-### Requirements
-This repository uses a modern Python environment standard:
-- Python ≥ 3.9
-- Dependencies are specified in the `pyproject.toml` file.
-
-To install:
 ```bash
-pip install .
+uv sync --locked
 ```
-Or using PDM:
+
+For development and verification:
+
 ```bash
-pdm install
+uv sync --locked --dev
+uv run pytest
+uv run ruff format --check src scripts data tests
+uv run ruff check src scripts data tests
 ```
 
-## 📚 Citations
-Please cite the following works if you use this code:
+The default lock configuration uses CPU PyTorch wheels for deterministic Windows, Linux, and macOS CI environments. For CUDA-enabled training workloads, install the PyTorch wheel index that matches your driver and hardware before running experiments.
 
+## Quick Start
 
-
-## 📂 Repository Structure
-```
-├── LICENSE
-├── README.md
-├── pyproject.toml      # project metadata & dependencies
-├── setup.cfg           # optional packaging config
-├── environment.yml     # optional environment specification
-├── src/                # source code & Python package
-│   └── your_package/   # replace with your package name
-├── notebooks/          # Jupyter notebooks for experiments or analysis
-├── papers/             # manuscript sources (LaTeX, figures, assets)
-├── data/               # raw/processed datasets or external links
-├── scripts/            # utility scripts and entry points
-├── tests/              # unit and integration tests
-├── docs/               # documentation (Sphinx, MkDocs, GitHub Pages)
-│   ├── index.html      # main documentation page
-│   ├── images/         # documentation assets (images,..)
-└── examples/           # usage examples and demos
-```
-
-The `docs/` directory contains the project's documentation website with comprehensive information about the project, including:
-- Project overview and goals
-- Installation and setup instructions
-- Usage examples and tutorials
-- API documentation
-- Links to related resources and publications
-- Team and contributor information
-
-
-## 📄 License
-This project is licensed under the **CC BY-NC-ND 4.0** license. See the [LICENSE](./LICENSE) file or read more at [creativecommons.org](https://creativecommons.org/licenses/by-nc-nd/4.0/).
-
-## 📊 Dataset Hosting
-
-All relevant data supporting the findings of this study are either included in the manuscript and supplementary materials or are publicly available at: 
-
-- [Hugging Face](https://huggingface.co/datasets/ESA-PhiLab-Edge/LPL-Burned-Area-Seg)
-
-
-### 📥 Data Download Utilities
-
-This repository includes a utility script for downloading datasets or models from the Hugging Face Hub:
+Generate and inspect a candidate architecture code:
 
 ```python
-# Install required dependencies
-pip install huggingface_hub
+from pynas.core.architecture_builder import (
+    generate_code_from_parsed_architecture,
+    generate_random_architecture_code,
+    parse_architecture_code,
+)
 
-# Run the download script
-python data/download_hf_datasets.py
+architecture_code = generate_random_architecture_code()
+parsed_architecture = parse_architecture_code(architecture_code)
+round_tripped_code = generate_code_from_parsed_architecture(parsed_architecture)
+
+print(architecture_code)
+print(round_tripped_code)
 ```
 
-The script (`data/download_hf_datasets.py`) provides a robust way to fetch datasets with automatic retries and error handling. It uses the `huggingface_hub` library to download repositories with the following features:
+Use the public package interface for training-related utilities:
 
-- Downloads datasets or models from Hugging Face Hub
-- Configurable retry mechanism for handling network issues
-- Progress tracking and error reporting
-- Supports custom local directories for downloads
-- Uses HF's optimized transfer protocol
+```python
+from pynas import (
+    CategoricalCrossEntropyLoss,
+    GenericLightningSegmentationNetwork,
+    Individual,
+    calculate_iou,
+)
+```
 
-To customize which datasets to download, edit the `repo_ids` list in the script.
+## Data
+
+The burned-area segmentation dataset referenced by this project is hosted on Hugging Face:
+
+- [ESA-PhiLab-Edge/LPL-Burned-Area-Seg](https://huggingface.co/datasets/ESA-PhiLab-Edge/LPL-Burned-Area-Seg)
+
+Install the optional data dependencies and run the downloader:
+
+```bash
+uv sync --locked --extra data
+uv run python data/download_hf_datasets.py
+```
+
+The downloader supports dataset and model repositories from the Hugging Face Hub, retry handling for transient network failures, progress reporting, and custom local output directories. Edit the `repo_ids` list in `data/download_hf_datasets.py` to change the default download targets.
+
+## Repository Layout
+
+```text
+.
+├── data/                 # Dataset download utilities and data notes
+├── docs/                 # Documentation assets and static documentation files
+├── examples/             # Usage examples and demos
+├── notebooks/            # Experiment and walkthrough notebooks
+├── papers/               # Research manuscript assets
+├── scripts/              # Training and data-loading scripts
+├── src/pynas/            # PyNAS Python package
+│   ├── blocks/           # Neural network building blocks
+│   ├── core/             # Architecture, population, configuration, and model logic
+│   ├── opt/              # Evolutionary optimization operators
+│   └── train/            # Losses, metrics, and training helpers
+└── tests/                # Unit and integration tests
+```
+
+## Research Context
+
+Spaceborne edge computing enables AI-capable CubeSats to process data onboard, reduce downlink pressure, and operate with greater autonomy. These systems face strict memory, power, and latency constraints, so model design must account for both predictive performance and deployment cost.
+
+PyNAS explores evolutionary Neural Architecture Search for this setting. The framework is designed around compact segmentation architectures and hardware-aware optimization for CubeSat-class platforms such as NVIDIA Jetson AGX Orin and Intel Movidius Myriad X targets.
+
+## Documentation
+
+- Project documentation: [sirbastiano.github.io/pynas-docs](https://sirbastiano.github.io/pynas-docs/)
+- Source repository: [github.com/ESA-PhiLab/pynas](https://github.com/ESA-PhiLab/pynas)
+- ESA Phi-lab: [philab.esa.int](https://philab.esa.int)
+- Little Place Lab: [littleplace.com](https://www.littleplace.com)
+
+## Citation
+
+If you use PyNAS in academic work, cite the Zenodo record below. A paper-specific citation will be added when the associated manuscript is available.
+
+```bibtex
+@software{pynas_zenodo_15332053,
+  title = {PyNAS},
+  publisher = {Zenodo},
+  doi = {10.5281/zenodo.15332053},
+  url = {https://doi.org/10.5281/zenodo.15332053}
+}
+```
+
+## Authors
+
+- Roberto Del Prete ([Google Scholar](https://scholar.google.com/citations?user=Dwc8YxwAAAAJ))
+- Parampuneet Thind ([Google Scholar](https://scholar.google.com/citations?user=Q71ynAkAAAAJ&hl=en&oi=sra))
+- Andrea Mazzeo
+- Lorenzo Papa ([Google Scholar](https://scholar.google.com/citations?user=P64hj-4AAAAJ))
+- Matthew Whitley
+- Gabriele Meoni ([Google Scholar](https://scholar.google.com/citations?user=vv34M9QAAAAJ))
+- Nicolas Longepe ([Google Scholar](https://scholar.google.com/citations?user=YVVkIX8AAAAJ))
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/ESA-PhiLab/pynas/main/docs/images/lpl.jpg" alt="Little Place Lab logo" width="260" />
+</p>
+
+## License
+
+This project is licensed under the **Apache License 2.0**. See [LICENSE](./LICENSE) for the full license text.

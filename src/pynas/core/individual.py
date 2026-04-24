@@ -5,11 +5,12 @@ from copy import deepcopy
 
 evaluator = myFit.FitnessEvaluator()
 
+
 class Individual:
     """
-    The `Individual` class represents an individual entity in the genetic algorithm or evolutionary computation context. 
-    It encapsulates the architecture, chromosome, and associated properties such as fitness, IOU (Intersection over Union), 
-    FPS (Frames Per Second), and model size. The class provides methods for converting between architecture and chromosome 
+    The `Individual` class represents an individual entity in the genetic algorithm or evolutionary computation context.
+    It encapsulates the architecture, chromosome, and associated properties such as fitness, IOU (Intersection over Union),
+    FPS (Frames Per Second), and model size. The class provides methods for converting between architecture and chromosome
     representations, resetting properties, and creating deep copies of the individual.
     Attributes:
         architecture (str): The architecture code representing the individual's structure.
@@ -39,19 +40,28 @@ class Individual:
         set_trained_model(model):
             Sets the trained model for the individual.
     """
+
     def __init__(self, max_layers, min_layers=3):
-        self.architecture = builder.generate_random_architecture_code(max_layers=max_layers, min_layers=min_layers)
+        if max_layers < 1:
+            raise ValueError(f"max_layers must be at least 1, got {max_layers}")
+        if min_layers < 1:
+            raise ValueError(f"min_layers must be at least 1, got {min_layers}")
+        min_layers = min(min_layers, max_layers)
+
+        self.architecture = builder.generate_random_architecture_code(
+            max_layers=max_layers, min_layers=min_layers
+        )
         self.chromosome = self.architecture2chromosome(input_architecture=self.architecture)
         self.parsed_layers = builder.parse_architecture_code(self.architecture)
         self.reset()
 
     def __str__(self):
-        return f'Individual: {self.architecture}'
-    
-    
-    def _reparse_layers(self):
-        self.parsed_layers = builder.parse_architecture_code(self.chromosome2architecture(self.chromosome))
+        return f"Individual: {self.architecture}"
 
+    def _reparse_layers(self):
+        self.parsed_layers = builder.parse_architecture_code(
+            self.chromosome2architecture(self.chromosome)
+        )
 
     def reset(self):
         """
@@ -59,16 +69,16 @@ class Individual:
         """
         self.results = {}
         self.fitness = 0.0
+        self.iou = None
         self.metric = None
         self.fps = None
         self.model_size = None
         self.model = None
 
-
     # Implement the logic to prompt the fitnes
     def _prompt_fitness(self):
         # fps = results['fps']
-        #metric = results['test_mcc']
+        # metric = results['test_mcc']
         # metric = results['test_iou']
         # self.fps, self.metric = fps, metric
         # self.results = results
@@ -87,24 +97,22 @@ class Individual:
         the architecture ends with 'EE', avoiding an empty string at the end of the list.
         """
         # Split the architecture code on 'E'
-        chromosome = input_architecture.split('E')
+        chromosome = input_architecture.split("E")
         # Remove the last two empty elements if the architecture ends with 'EE'
-        if len(chromosome) >= 2 and chromosome[-1] == '' and chromosome[-2] == '':
+        if len(chromosome) >= 2 and chromosome[-1] == "" and chromosome[-2] == "":
             chromosome = chromosome[:-2]
-        elif len(chromosome) >= 1 and chromosome[-1] == '':
+        elif len(chromosome) >= 1 and chromosome[-1] == "":
             # If it only ends with a single 'E', just remove the last empty element
             chromosome = chromosome[:-1]
         return chromosome
-
 
     def chromosome2architecture(self, input_chromosome):
         """
         Converts the chromosome list back into an architecture code by joining
         the list items with 'E' and ensuring the architecture ends with 'EE'.
         """
-        architecture_code = 'E'.join(input_chromosome) + 'EE'
+        architecture_code = "E".join(input_chromosome) + "EE"
         return architecture_code
-
 
     def copy(self):
         """
@@ -118,16 +126,14 @@ class Individual:
         new_individual.iou = self.iou
         new_individual.fps = self.fps
         new_individual.model_size = self.model_size
-        
+
         if self.model is not None:
             new_individual.model = deepcopy(self.model)  # Copy the entire model
 
-        return new_individual    
+        return new_individual
 
-    
     def set_trained_model(self, model):
         """
         Set the trained model.
         """
         self.model = model
-

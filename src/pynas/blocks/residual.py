@@ -33,7 +33,7 @@ class Residual(nn.Module):
         res_func: Callable[[Tensor, Tensor], Tensor] = None,
         shortcut: nn.Module = None,
         *args,
-        **kwargs
+        **kwargs,
     ):
         """
 

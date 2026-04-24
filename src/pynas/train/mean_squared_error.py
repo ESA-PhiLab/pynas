@@ -1,6 +1,7 @@
 import torch
 from torchmetrics import Metric
 
+
 class MeanSquaredError(Metric):
     def __init__(self):
         super().__init__()

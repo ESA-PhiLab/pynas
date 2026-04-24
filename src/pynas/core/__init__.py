@@ -5,17 +5,18 @@ from .architecture_builder import (
     generate_upsampling_layer_code,
     generate_skip_connection_code,
     parse_architecture_code,
-    generate_code_from_parsed_architecture
+    generate_code_from_parsed_architecture,
 )
 from .generic_lightning_module import (
     GenericLightningNetwork,
     GenericLightningSegmentationNetwork,
-    GenericLightningNetwork_Custom
+    GenericLightningNetwork_Custom,
 )
 from .generic_unet import (
     UNetDecoder,
-    GenericUNetNetwork as CoreGenericUNetNetwork # Alias to avoid name clash
+    GenericUNetNetwork as CoreGenericUNetNetwork,  # Alias to avoid name clash
 )
+from .config import default_config_path, load_config, load_default_config
 from .individual import Individual
 from .population import Population
 from .vocabulary import (
@@ -25,7 +26,7 @@ from .vocabulary import (
     upsampling_layer_vocabulary,
     skip_connection_layer_vocabulary,
     layer_parameters,
-    parameter_vocabulary
+    parameter_vocabulary,
 )
 
 __all__ = [
@@ -44,6 +45,10 @@ __all__ = [
     # from generic_unet
     "UNetDecoder",
     "CoreGenericUNetNetwork",
+    # from config
+    "default_config_path",
+    "load_config",
+    "load_default_config",
     # from individual
     "Individual",
     # from population

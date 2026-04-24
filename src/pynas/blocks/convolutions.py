@@ -5,7 +5,9 @@ from .activations import ReLU
 
 # Classic Conv
 class ConvAct(nn.Sequential):
-    def __init__(self, in_channels, out_channels, kernel_size=3, stride=1, padding=1, activation=ReLU):
+    def __init__(
+        self, in_channels, out_channels, kernel_size=3, stride=1, padding=1, activation=ReLU
+    ):
         super().__init__(
             nn.Conv2d(in_channels, out_channels, kernel_size, stride, padding),
             activation(),
@@ -13,7 +15,9 @@ class ConvAct(nn.Sequential):
 
 
 class ConvBnAct(nn.Sequential):
-    def __init__(self, in_channels, out_channels, kernel_size=3, stride=1, padding=1, activation=ReLU):
+    def __init__(
+        self, in_channels, out_channels, kernel_size=3, stride=1, padding=1, activation=ReLU
+    ):
         super().__init__(
             nn.Conv2d(in_channels, out_channels, kernel_size, stride, padding),
             nn.BatchNorm2d(num_features=out_channels),
@@ -30,7 +34,7 @@ class SEBlock(nn.Module):
             nn.Linear(in_channels, reduced_channels, bias=False),
             nn.ReLU(inplace=True),
             nn.Linear(reduced_channels, in_channels, bias=False),
-            nn.Sigmoid()
+            nn.Sigmoid(),
         )
 
     def forward(self, x):
@@ -41,27 +45,59 @@ class SEBlock(nn.Module):
 
 
 class ConvSE(nn.Sequential):
-    def __init__(self, in_channels, out_channels, kernel_size=3, stride=1, padding=1, activation=ReLU):
+    def __init__(
+        self, in_channels, out_channels, kernel_size=3, stride=1, padding=1, activation=ReLU
+    ):
         super().__init__(
-            ConvBnAct(in_channels=in_channels, out_channels=out_channels, kernel_size=kernel_size, stride=stride, padding=padding, activation=activation),
+            ConvBnAct(
+                in_channels=in_channels,
+                out_channels=out_channels,
+                kernel_size=kernel_size,
+                stride=stride,
+                padding=padding,
+                activation=activation,
+            ),
             SEBlock(reduction=16, in_channels=out_channels),
         )
 
 
 # MBConv Inverted
 class MBConv(nn.Module):
-    def __init__(self, in_channels, out_channels, dw_kernel_size=3, expansion_factor=4, activation=ReLU):
+    def __init__(
+        self, in_channels, out_channels, dw_kernel_size=3, expansion_factor=4, activation=ReLU
+    ):
         expanded_channels = in_channels * expansion_factor
         super().__init__()
         self.steps = nn.Sequential(
             # Narrow to wide
-            ConvBnAct(in_channels, expanded_channels, kernel_size=1, stride=1, padding=0, activation=activation),
+            ConvBnAct(
+                in_channels,
+                expanded_channels,
+                kernel_size=1,
+                stride=1,
+                padding=0,
+                activation=activation,
+            ),
             # Wide to wide (depthwise convolution)
-            nn.Conv2d(expanded_channels, expanded_channels, kernel_size=dw_kernel_size, stride=1, padding=1, groups=expanded_channels),
+            nn.Conv2d(
+                expanded_channels,
+                expanded_channels,
+                kernel_size=dw_kernel_size,
+                stride=1,
+                padding=1,
+                groups=expanded_channels,
+            ),
             nn.BatchNorm2d(expanded_channels),
             activation(),
             # Wide to narrow
-            ConvBnAct(expanded_channels, out_channels, kernel_size=1, stride=1, padding=0, activation=activation)
+            ConvBnAct(
+                expanded_channels,
+                out_channels,
+                kernel_size=1,
+                stride=1,
+                padding=0,
+                activation=activation,
+            ),
         )
 
     def forward(self, x):
@@ -69,21 +105,44 @@ class MBConv(nn.Module):
         x = self.steps(x)
         x = torch.add(x, res)
         return x
-    
+
 
 class MBConvNoRes(nn.Module):
-    def __init__(self, in_channels, out_channels, dw_kernel_size=3, expansion_factor=4, activation=ReLU):
+    def __init__(
+        self, in_channels, out_channels, dw_kernel_size=3, expansion_factor=4, activation=ReLU
+    ):
         expanded_channels = in_channels * expansion_factor
         super().__init__()
         self.steps = nn.Sequential(
             # Narrow to wide
-            ConvBnAct(in_channels, expanded_channels, kernel_size=1, stride=1, padding=0, activation=activation),
+            ConvBnAct(
+                in_channels,
+                expanded_channels,
+                kernel_size=1,
+                stride=1,
+                padding=0,
+                activation=activation,
+            ),
             # Wide to wide (depthwise convolution)
-            nn.Conv2d(expanded_channels, expanded_channels, kernel_size=dw_kernel_size, stride=1, padding=1, groups=expanded_channels),
+            nn.Conv2d(
+                expanded_channels,
+                expanded_channels,
+                kernel_size=dw_kernel_size,
+                stride=1,
+                padding=1,
+                groups=expanded_channels,
+            ),
             nn.BatchNorm2d(expanded_channels),
             activation(),
             # Wide to narrow
-            ConvBnAct(expanded_channels, out_channels, kernel_size=1, stride=1, padding=0, activation=activation)
+            ConvBnAct(
+                expanded_channels,
+                out_channels,
+                kernel_size=1,
+                stride=1,
+                padding=0,
+                activation=activation,
+            ),
         )
 
     def forward(self, x):
@@ -98,15 +157,18 @@ class CSPConvBlock(nn.Module):
 
         # Use the same value for hidden_channels to avoid the issue with odd in_channels
         self.main_channels = in_channels // 2
-        self.shortcut_channels = in_channels-self.main_channels
+        self.shortcut_channels = in_channels - self.main_channels
 
         # Main path (processed part)
         self.main_path = nn.Sequential(
-            *[ConvBnAct(
-                in_channels=self.main_channels,
-                out_channels=self.main_channels,
-                activation=activation,
-            ) for _ in range(num_blocks)],
+            *[
+                ConvBnAct(
+                    in_channels=self.main_channels,
+                    out_channels=self.main_channels,
+                    activation=activation,
+                )
+                for _ in range(num_blocks)
+            ],
         )
 
         # Shortcut path is just a passthrough
@@ -115,7 +177,7 @@ class CSPConvBlock(nn.Module):
         # Final 1x1 convolution after merging
         self.final_transition = nn.Sequential(
             nn.Conv2d(
-                in_channels=self.main_channels+self.shortcut_channels,
+                in_channels=self.main_channels + self.shortcut_channels,
                 out_channels=in_channels,
                 kernel_size=1,
             ),
@@ -123,14 +185,13 @@ class CSPConvBlock(nn.Module):
             activation(),
         )
 
-
     def forward(self, x):
         # Apply first transition which is just a passthrough here
-        #shortcut = nn.Identity(x)
+        # shortcut = nn.Identity(x)
 
         # Splitting the input tensor into two paths
-        main_data = x[:, :self.main_channels, :, :]
-        shortcut_data = x[:, self.main_channels:, :, :]
+        main_data = x[:, : self.main_channels, :, :]
+        shortcut_data = x[:, self.main_channels :, :, :]
 
         main_data = self.main_path(main_data)
         shortcut_data = self.shortcut_path(shortcut_data)
@@ -142,22 +203,27 @@ class CSPConvBlock(nn.Module):
 
 
 class CSPMBConvBlock(nn.Module):
-    def __init__(self, in_channels, num_blocks=1, dw_kernel_size=3, expansion_factor=4, activation=ReLU):
+    def __init__(
+        self, in_channels, num_blocks=1, dw_kernel_size=3, expansion_factor=4, activation=ReLU
+    ):
         super().__init__()
 
         # Use the same value for hidden_channels to avoid the issue with odd in_channels
         self.main_channels = in_channels // 2
-        self.shortcut_channels = in_channels-self.main_channels
+        self.shortcut_channels = in_channels - self.main_channels
 
         # Main path (processed part)
         self.main_path = nn.Sequential(
-            *[MBConv(
-                in_channels=self.main_channels,
-                out_channels=self.main_channels,
-                expansion_factor=expansion_factor,
-                activation=activation,
-                dw_kernel_size=dw_kernel_size,
-            ) for _ in range(num_blocks)],
+            *[
+                MBConv(
+                    in_channels=self.main_channels,
+                    out_channels=self.main_channels,
+                    expansion_factor=expansion_factor,
+                    activation=activation,
+                    dw_kernel_size=dw_kernel_size,
+                )
+                for _ in range(num_blocks)
+            ],
         )
 
         # Shortcut path is just a passthrough
@@ -166,7 +232,7 @@ class CSPMBConvBlock(nn.Module):
         # Final 1x1 convolution after merging
         self.final_transition = nn.Sequential(
             nn.Conv2d(
-                in_channels=self.main_channels+self.shortcut_channels,
+                in_channels=self.main_channels + self.shortcut_channels,
                 out_channels=in_channels,
                 kernel_size=1,
             ),
@@ -176,11 +242,11 @@ class CSPMBConvBlock(nn.Module):
 
     def forward(self, x):
         # Apply first transition which is just a passthrough here
-        #shortcut = nn.Identity(x)
+        # shortcut = nn.Identity(x)
 
         # Splitting the input tensor into two paths
-        main_data = x[:, :self.main_channels, :, :]
-        shortcut_data = x[:, self.main_channels:, :, :]
+        main_data = x[:, : self.main_channels, :, :]
+        shortcut_data = x[:, self.main_channels :, :, :]
 
         main_data = self.main_path(main_data)
         shortcut_data = self.shortcut_path(shortcut_data)
@@ -197,13 +263,20 @@ class DenseNetBlock(nn.Module):
     Basic DenseNet block composed by one 3x3 convs with residual connection.
     The residual connection is perfomed by concatenate the input and the output.
     """
+
     def __init__(self, in_channels, out_channels, activation=ReLU):
         super().__init__()
         self.block = nn.Sequential(
             nn.BatchNorm2d(in_channels),
             activation(),
-            nn.Conv2d(in_channels=in_channels, out_channels=out_channels, kernel_size=3, stride=1, padding=1)
-            )
+            nn.Conv2d(
+                in_channels=in_channels,
+                out_channels=out_channels,
+                kernel_size=3,
+                stride=1,
+                padding=1,
+            ),
+        )
 
     def forward(self, x):
         res = x
@@ -217,49 +290,69 @@ class ResNetBasicBlock(nn.Module):
         super().__init__()
         assert out_channels == in_channels
         reduced_channels = in_channels // reduction_factor
-        
-        if reduced_channels == 0:             
-            reduced_channels = in_channels    
+
+        if reduced_channels == 0:
+            reduced_channels = in_channels
         self.steps = nn.Sequential(
             # Narrow to wide
-            ConvBnAct(in_channels, reduced_channels, kernel_size=1, stride=1, padding=0, activation=activation),
+            ConvBnAct(
+                in_channels,
+                reduced_channels,
+                kernel_size=1,
+                stride=1,
+                padding=0,
+                activation=activation,
+            ),
             # Wide to wide (depthwise convolution)
-            ConvBnAct(reduced_channels, reduced_channels, kernel_size=3, stride=1, padding=1, activation=activation),
+            ConvBnAct(
+                reduced_channels,
+                reduced_channels,
+                kernel_size=3,
+                stride=1,
+                padding=1,
+                activation=activation,
+            ),
             # Wide to narrow
-            ConvBnAct(reduced_channels, out_channels, kernel_size=1, stride=1, padding=0, activation=activation)
+            ConvBnAct(
+                reduced_channels,
+                out_channels,
+                kernel_size=1,
+                stride=1,
+                padding=0,
+                activation=activation,
+            ),
         )
 
     def forward(self, x):
         x = self.steps(x)
         return x
-    
+
 
 class ResNetBlock(nn.Module):
     def __init__(self, in_channels, out_channels, reduction_factor=4, activation=ReLU):
         super().__init__()
         assert out_channels == in_channels
         self.main_path = ResNetBasicBlock(
-            in_channels=in_channels, 
+            in_channels=in_channels,
             out_channels=out_channels,
             reduction_factor=reduction_factor,
             activation=activation,
-            )
+        )
 
     def forward(self, x):
         res = x
         x = self.main_path(x)
         x = torch.add(x, res)
         return x
-    
- 
+
+
 class Upsample(nn.Module):
-    def __init__(self, scale_factor=2, mode='nearest'):
+    def __init__(self, scale_factor=2, mode="nearest"):
         super().__init__()
         self.upsample = nn.Upsample(scale_factor=scale_factor, mode=mode)
 
     def forward(self, x):
         return self.upsample(x)
-
 
 
 """

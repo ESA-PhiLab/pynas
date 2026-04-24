@@ -1,46 +1,53 @@
-import os
+from pathlib import Path
+
 import numpy as np
 from torch.utils.data import Dataset, DataLoader, random_split
 from pytorch_lightning import LightningDataModule
-from torch.utils.data.distributed import DistributedSampler
+
 
 class SegmentationDataset(Dataset):
-    def __init__(self, root_dir, split='TrainVal', transform=None):
+    def __init__(self, root_dir, split="TrainVal", transform=None):
         """
         Args:
             root_dir (string): Directory with all the images and masks.
             split (string): One of ['TrainVal', 'Test'] to specify the dataset split.
             transform (callable, optional): Optional transform to be applied on a sample.
         """
-        self.root_dir = root_dir
+        self.root_dir = Path(root_dir)
         self.split = split
         self.transform = transform
 
         # ==== Define class names and number of classes ====
-        self.classes = ['Background', 'BurntArea', 'Cloud', 'Waterbodies']
+        self.classes = ["Background", "BurntArea", "Cloud", "Waterbodies"]
         self.num_classes = len(self.classes)
 
         # Getting the list of image and mask paths
         self.image_paths = []
         self.mask_paths = []
 
-        image_dir = os.path.join(self.root_dir, split, 'numpy_images')
-        mask_dir = os.path.join(self.root_dir, split, 'numpy_masks')
+        image_dir = self.root_dir / split / "numpy_images"
+        mask_dir = self.root_dir / split / "numpy_masks"
+        if not image_dir.is_dir():
+            raise FileNotFoundError(f"Image directory not found: {image_dir}")
+        if not mask_dir.is_dir():
+            raise FileNotFoundError(f"Mask directory not found: {mask_dir}")
 
-        image_filenames = os.listdir(image_dir)
-        mask_filenames = os.listdir(mask_dir)
+        image_by_stem = {path.stem: path for path in image_dir.iterdir() if path.suffix == ".npy"}
+        mask_by_stem = {path.stem: path for path in mask_dir.iterdir() if path.suffix == ".npy"}
 
-        for image_filename in image_filenames:
-            if image_filename.endswith('.npy'):
-                self.image_paths.append(os.path.join(image_dir, image_filename))
+        image_stems = set(image_by_stem)
+        mask_stems = set(mask_by_stem)
+        if image_stems != mask_stems:
+            missing_masks = sorted(image_stems - mask_stems)
+            missing_images = sorted(mask_stems - image_stems)
+            raise ValueError(
+                "Image/mask files do not match by stem. "
+                f"Missing masks for: {missing_masks[:5]}; missing images for: {missing_images[:5]}"
+            )
 
-        for mask_filename in mask_filenames:
-            if mask_filename.endswith('.npy'):
-                self.mask_paths.append(os.path.join(mask_dir, mask_filename))
-
-        # Ensure both image_paths and mask_paths are sorted to match corresponding pairs
-        self.image_paths.sort()
-        self.mask_paths.sort()
+        for stem in sorted(image_stems):
+            self.image_paths.append(image_by_stem[stem])
+            self.mask_paths.append(mask_by_stem[stem])
 
     def __len__(self):
         return len(self.image_paths)
@@ -77,11 +84,11 @@ class SegmentationDataModule(LightningDataModule):
     def prepare_data(self):
         pass
 
-    def setup(self, stage='fit'):
+    def setup(self, stage="fit"):
         # Load the full dataset
         full_dataset = SegmentationDataset(
             root_dir=self.root_dir,
-            split='TrainVal',
+            split="TrainVal",
             transform=self.transform,
         )
 
@@ -101,10 +108,10 @@ class SegmentationDataModule(LightningDataModule):
         self.train_dataset, self.val_dataset = random_split(full_dataset, [train_size, val_size])
 
         # Load test dataset
-        if stage == 'test':
+        if stage == "test":
             self.test_dataset = SegmentationDataset(
                 root_dir=self.root_dir,
-                split='Test',
+                split="Test",
                 transform=self.transform,
             )
 
@@ -113,7 +120,7 @@ class SegmentationDataModule(LightningDataModule):
             dataset=self.train_dataset,
             batch_size=self.batch_size,
             shuffle=True,
-            num_workers=self.num_workers
+            num_workers=self.num_workers,
         )
 
     def val_dataloader(self):
@@ -121,7 +128,7 @@ class SegmentationDataModule(LightningDataModule):
             dataset=self.val_dataset,
             batch_size=self.batch_size,
             shuffle=False,
-            num_workers=self.num_workers
+            num_workers=self.num_workers,
         )
 
     def test_dataloader(self):
@@ -129,5 +136,5 @@ class SegmentationDataModule(LightningDataModule):
             dataset=self.test_dataset,
             batch_size=self.batch_size,
             shuffle=False,
-            num_workers=self.num_workers
+            num_workers=self.num_workers,
         )

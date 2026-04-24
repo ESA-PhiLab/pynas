@@ -1,15 +1,15 @@
 import numpy as np
 
 
-
-
 class FitnessEvaluator:
     """Class to compute fitness functions for balancing FPS and MCC."""
 
-    def __init__(self, alpha=1.0, beta=1.0, gamma=1.0, delta=0.1, epsilon=0.01, lambda_=5.0, target_fps=120.0):
+    def __init__(
+        self, alpha=1.0, beta=1.0, gamma=1.0, delta=0.1, epsilon=0.01, lambda_=5.0, target_fps=120.0
+    ):
         """
         Initializes the fitness evaluator with tunable parameters.
-        
+
         Args:
             alpha (float): Weight for FPS in the weighted sum formula.
             beta (float): Weight for MCC in the weighted sum formula.
@@ -29,10 +29,9 @@ class FitnessEvaluator:
     @staticmethod
     def rebound_metrics(fps, mcc, target_fps=120.0):
         fps_ratio = min(fps / target_fps, 1.0)  # Cap at 1.0 to avoid rewarding excessively high FPS
-        #mcc_norm = (mcc + 1) / 2  # Normalizing MCC from [-1, 1] to [0, 1]
+        # mcc_norm = (mcc + 1) / 2  # Normalizing MCC from [-1, 1] to [0, 1]
         mcc_norm = mcc
         return fps_ratio, mcc_norm
-
 
     def weighted_sum_exponential(self, fps, mcc):
         """Computes fitness using weighted sum with exponential MCC penalty."""
@@ -60,9 +59,7 @@ class FitnessEvaluator:
         return fps * (1 + mcc) if mcc >= 0 else fps * 0.1
 
 
-
-if __name__ == "__main__":   
-
+if __name__ == "__main__":
     # Example usage:
     evaluator = FitnessEvaluator()
     fps = 536.47

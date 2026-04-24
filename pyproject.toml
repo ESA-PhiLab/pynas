@@ -1,14 +1,14 @@
 [build-system]
-requires = ["setuptools>=61.0", "wheel"]
+requires = ["setuptools>=77.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "pynas"
-version = "0.1.0"
-description = "pynas, a powerful open-source Python package that provides a comprehensive set of tools for Neural Architecture Search"
+name = "esa-pynas"
+version = "0.1.1"
+description = "PyNAS, a Python package for Neural Architecture Search experiments"
 readme = {file = "README.md", content-type = "text/markdown"}
-requires-python = ">=3.8,<4"
-license = {text = "GPL-3.0-only"}
+requires-python = ">=3.11,<3.15"
+license = "Apache-2.0"
 authors = [
   {name = "Roberto Del Prete"},
   {name = "Andrea Mazzeo"},
@@ -16,25 +16,78 @@ authors = [
 ]
 maintainers = [{name = "Roberto Del Prete", email = "roberto.delprete@esa.int"}]
 dependencies = [
-  "pandas",
-  "tqdm",
-  "seaborn",
-  "torch",
-  "torchvision",
-  "pytorch-lightning",
+  "matplotlib>=3.10,<4",
+  "numpy>=2.4,<3",
+  "pandas>=3,<4",
+  "pytorch-lightning>=2.6,<2.7",
+  "torch>=2.11,<2.12",
+  "torchmetrics>=1.9,<2",
+  "torchvision>=0.26,<0.27",
+  "tqdm>=4.67,<5",
 ]
 classifiers = [
   "Development Status :: 3 - Alpha",
   "Intended Audience :: Developers",
   "Intended Audience :: Science/Research",
   "Topic :: Scientific/Engineering :: GIS",
-  "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
-  "Programming Language :: Python :: 3.8",
-  "Environment :: GPU :: NVIDIA CUDA :: 11.0"
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Environment :: GPU :: NVIDIA CUDA :: 11.0",
+]
+
+[project.optional-dependencies]
+data = [
+  "hf-transfer>=0.1.9,<0.2",
+  "huggingface-hub>=1.11,<2",
+]
+export = [
+  "onnx>=1.21,<2",
+  "openvino>=2026.1,<2027",
 ]
 
 [project.urls]
 Source = "https://github.com/ESA-PhiLab/pynas"
 
+[dependency-groups]
+dev = [
+  "build>=1.4,<2",
+  "huggingface-hub>=1.11,<2",
+  "pytest>=9,<10",
+  "pytest-cov>=7,<8",
+  "ruff>=0.15.11,<0.16",
+]
+
 [tool.setuptools.packages.find]
-include = ["./src/pynas*"]
+where = ["src"]
+include = ["pynas*"]
+
+[tool.setuptools.package-data]
+"pynas.core" = ["config.ini"]
+
+[tool.uv.sources]
+torch = [
+  {index = "pytorch-cpu", marker = "platform_system == 'Linux' or platform_system == 'Windows'"},
+]
+torchvision = [
+  {index = "pytorch-cpu", marker = "platform_system == 'Linux' or platform_system == 'Windows'"},
+]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+extend-exclude = ["notebooks"]
+
+[tool.ruff.lint]
+select = ["E9", "F63", "F7", "F82"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
